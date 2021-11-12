@@ -16,5 +16,6 @@ public:
     void addBoolInput2(std::string_view str);
     void addShortName(std::string_view str);
     std::string toString();
+    std::string getFormatString();
     
 };

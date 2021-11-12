@@ -78,3 +78,8 @@ std::string ShapeInfo::toString()  {
       
     return stringStream.str();
 }
+
+std::string ShapeInfo::getFormatString() {
+    return " ";
+}
+

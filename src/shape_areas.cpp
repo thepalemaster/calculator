@@ -1,36 +1,33 @@
-#include "hdr/shape_areas.hpp"
+#include "shape_areas.hpp"
 
 const double PI = 3.141592653589793;
 
 namespace Shapes {
     
-    Rectangle::Rectangle(int id): AbstactShape(id) {
-        options = {
-            Option {"Прямоугольник", NAME},
-            Option {"rect", SHORT_NAME},
-            Option {"Сторона А", INPUT_DOUBLE_1},
-            Option {"Сторона Б", INPUT_DOUBLE_2},
-        };
+    Rectangle::Rectangle(int id): 
+    AbstactShape(id, { 
+        Option {"Прямоугольник", NAME},
+        Option {"rect", SHORT_NAME},
+        Option {"Сторона А", INPUT_DOUBLE_1},
+        Option {"Сторона Б", INPUT_DOUBLE_2},
+        Option {"Прямоугольник S: %f (%f × %f)", PRINTF_TEMPLATE}
+    })
+    {}
+    
+    double Rectangle::calculate(const CalculatorParameters& param) const {
+        return param.numbers[0] * param.numbers[1];
     }
     
-    double Rectangle::calculateArea(std::string input) {
-        double a = getDouble(input);
-        double b = getDouble(input);
-        double factor = getFactor(input);
-        return a * b * factor;
-    }
+    Circle::Circle(int id):
+    AbstactShape(id, {
+        Option {"Круг", NAME},
+        Option {"circle", SHORT_NAME},
+        Option {"Диаметр", INPUT_DOUBLE_1},
+        Option {"Круг S: %f, D: %f", PRINTF_TEMPLATE}
+    })
+    {}
     
-    Circle::Circle(int id): AbstactShape(id) {
-        options = {
-            Option {"Круг", NAME},
-            Option {"circle", SHORT_NAME},
-            Option {"Диаметр", INPUT_DOUBLE_1}
-        };
-    }
-    
-    double Circle::calculateArea(std::string input) {
-        double r = getDouble(input);
-        double factor = getFactor(input);
-        return r * r * PI * factor;
+    double Circle::calculate(const CalculatorParameters& param) const {
+        return param.numbers[0] * param.numbers[0] * PI;
     }
 }
