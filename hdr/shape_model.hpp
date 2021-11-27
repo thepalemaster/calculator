@@ -4,7 +4,6 @@
 #include "shapes.hpp"
 
 #include <memory>
-#include <bitset>
 
 //#include <iterator>
 //#include <cstddef>
@@ -43,15 +42,10 @@ private:
     
     struct OptionObject {
         OptionObject(bool initialization = false);
-        OptionObject(const OptionObject& other) = delete;
-        OptionObject(OptionObject&& other) = default;
         bool init = false;
         const Shapes::Option* name = nullptr;
         std::unique_ptr<StateObject> state;
     };
-    
-    std::bitset<2> checkOptions;//удалить
-    std::bitset<2> prevCheckOptions;
     int paramNumber = 0;
     StateObject defaultState;
     std::vector<OptionObject> stateOptions;
@@ -65,17 +59,14 @@ private:
 public:
     ShapeModel(const std::vector<Shapes::Option> &options);
     ShapeModel(Shapes::AbstactShape &newShape);
-    ShapeModel(const ShapeModel& other) = delete;
-    ShapeModel(ShapeModel&& other) = default;
-    int getParamNumber();
-    void setFirstOption(bool value);
-    void setSecondOption(bool value);
-    const Shapes::Option* getFormat();
-    const Shapes::Option* getFormat(bool first, bool second = false);
-    std::vector<const Shapes::Option*>& getDefaultShortNames();
+    int getParamNumber() const;
+    const Shapes::Option* getName() const;
+    std::pair<const Shapes::Option*, double> getDoubleInput(int number);
+    const Shapes::Option* getFormat(bool first, bool second = false) const;
+    const std::vector<const Shapes::Option*>& getDefaultShortNames() const;
     const std::vector<const Shapes::Option&>& getOptionsToRemove();
     const std::vector<const Shapes::Option&>& getOptionsToAdd();
-    std::array<const Shapes::Option*, 7> getParamNames(); 
+    std::array<const Shapes::Option*, 7> getParamNames() const; 
     class Iterator{
     private:
         enum Step {

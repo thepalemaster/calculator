@@ -154,19 +154,6 @@ ShapeModel::StateObject& ShapeModel::currentStateObject(ShapeModel::State state)
     return defaultState;
 }
 
-void ShapeModel::setFirstOption(bool value) {
-    if (value == checkOptions[0]) return;
-    prevCheckOptions = checkOptions;
-    checkOptions[0] = value;
-}
-
-
-void ShapeModel::setSecondOption(bool value){
-    if (value == checkOptions[1]) return;
-    prevCheckOptions = checkOptions;
-    checkOptions[1] = value;
-}
-
 
 std::vector<const Shapes::Option*> ShapeModel::getStateOptions(ShapeModel::StateObject& state) {
     std::vector<const Shapes::Option*> vect;
@@ -180,7 +167,7 @@ std::vector<const Shapes::Option*> ShapeModel::getStateOptions(ShapeModel::State
     if (state.printFormat) vect.push_back(state.printFormat);    
     return vect;
 }
-
+/*
 ShapeModel::Iterator ShapeModel::getRemovedOptions() {
     if (prevCheckOptions[0] != checkOptions[0]) {
         if (checkOptions[0]) {
@@ -200,8 +187,8 @@ ShapeModel::Iterator ShapeModel::getRemovedOptions() {
     }
     return Iterator();
 }
-
-const Shapes::Option* ShapeModel::getFormat(bool first, bool second) {
+*/
+const Shapes::Option* ShapeModel::getFormat(bool first, bool second) const {
     if (stateOptions.size() == 3) {
         if (first && second && stateOptions[2].init 
             && stateOptions[2].state && stateOptions[2].state->printFormat) {
@@ -223,12 +210,11 @@ const Shapes::Option* ShapeModel::getFormat(bool first, bool second) {
     return defaultState.printFormat;
 }
 
-std::vector<const Shapes::Option*>& ShapeModel::getDefaultShortNames () {
+const std::vector<const Shapes::Option*>& ShapeModel::getDefaultShortNames () const {
     return defaultState.shortNames;
 }
 
-
-std::array<const Shapes::Option*, 7> ShapeModel::getParamNames() {
+std::array<const Shapes::Option*, 7> ShapeModel::getParamNames() const {
     std::array<const Shapes::Option*, 7> paramNames{defaultState.name};
     int index = 1;
     for (auto& param: defaultState.params) {
@@ -246,10 +232,20 @@ std::array<const Shapes::Option*, 7> ShapeModel::getParamNames() {
     return paramNames;
 }
 
-const Shapes::Option* ShapeModel::getFormat(){
-    return defaultState.printFormat;
-}
-
-int ShapeModel::getParamNumber() {
+int ShapeModel::getParamNumber() const {
     return paramNumber;
 }
+
+const Shapes::Option* ShapeModel::getName() const {
+    return defaultState.name;
+}
+
+std::pair<const Shapes::Option *, double> ShapeModel::getDoubleInput(int number) {
+    --number;
+    if (defaultState.params[number].init || defaultState.params.size() <= number || number < 0){
+        return {nullptr, 0.};
+    }
+    return {defaultState.params[number].name, defaultState.params[number].defaultValue};
+}
+
+

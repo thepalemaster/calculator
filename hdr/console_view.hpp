@@ -31,7 +31,6 @@ private:
         }
     }};
     std::map<std::string, int> idMap;
-    std::vector<ShapeModel> models;
     std::vector<std::string> helpList;
     std::vector<std::string> list;
     double totalArea = 0.;

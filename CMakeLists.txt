@@ -28,7 +28,6 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(CORE_SOURCES
-        #main.cpp
         src/calculator.cpp
         src/shape_areas.cpp
         src/shapes.cpp
@@ -45,28 +44,62 @@ set(CONSOLE_VIEW_SOURCES
         src/console/console_view.cpp
         src/console/main_console.cpp
         src/console/shape_info.cpp
-        src/console/console_literals.cpp
 )
-     
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(area_calc
-        MANUAL_FINALIZATION
-        ${CORE_SOURCES}
-    )
-else()
-    if(ANDROID)
-        add_library(area_calc SHARED
-            ${CORE_SOURCES}
-        )
-    else()
-        add_executable(area_calc
-            ${CORE_SOURCES}
-            ${CONSOLE_VIEW_SOURCES}
-            ${PARSER_SOURCES}
-        )
-    endif()
-endif()
+set(QTWIDGETS_SOURCES
+        src/qtwidgets/main_qtwidgets.cpp
+        src/qtwidgets/area_view.cpp
+        src/qtwidgets/calculator_window.cpp
+        src/qtwidgets/shape_view.cpp
+        src/qtwidgets/shape_options.cpp
+        src/qtwidgets/shape_buttons.cpp
+        src/qtwidgets/shape_list.cpp
+        src/qtwidgets/shape_input.cpp
+)
+  
+add_library(calculator STATIC
+    src/calculator.cpp
+    src/shape_areas.cpp
+    src/shapes.cpp
+    src/result.cpp
+)
+
+add_library(parser STATIC
+    src/parser/parser.cpp
+)
+
+add_library(shape_model STATIC
+    src/model/shape_model.cpp
+    src/model/iterator.cpp
+)
+
+
+add_executable(area_calc
+        ${CONSOLE_VIEW_SOURCES}
+)
+
+add_executable(qt_area_calc
+      ${QTWIDGETS_SOURCES}
+)
+
+target_link_libraries(qt_area_calc PRIVATE 
+    calculator
+    parser
+    shape_model
+)
+
+target_link_libraries(area_calc PRIVATE 
+    calculator
+    parser
+    shape_model
+)
+
+target_include_directories(calculator PUBLIC hdr)
+target_include_directories(parser PUBLIC hdr)
+target_include_directories(shape_model PUBLIC hdr)
+target_include_directories(area_calc PRIVATE hdr)
+target_include_directories(qt_area_calc PRIVATE hdr/qtw)
+        
 
 set_target_properties(area_calc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER palemaster.area_calc.com
@@ -74,11 +107,4 @@ set_target_properties(area_calc PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
-
-target_include_directories(area_calc PRIVATE hdr)
-target_link_libraries(area_calc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(area_calc)
-endif()
+target_link_libraries(qt_area_calc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

@@ -1,8 +1,9 @@
 #pragma once
 #include <functional>
-#include <memory>
+#include <utility>
 
 #include "shape_areas.hpp"
+#include "shape_model.hpp"
 
 
 class Calculator {
@@ -13,12 +14,12 @@ class Calculator {
         std::function<void(int, Result::action)> listCallback;
         double totalArea = 0;
     public:
+        const std::vector<ShapeModel> models;
         Calculator();
         void setupResultCallback(std::function<void(double)> callback);
         void setupListCallback(std::function<void(int index, Result::action action)> callback);
         const std::vector<Shapes::Option>& shapeOptionsByID (int id) const;
-        void calculate(int shapeID, std::string input);
-        void calculate(int shapeID, CalculatorParameters& param);
+        void calculate(int shapeID, const CalculatorParameters& param);
         void edit (int index, CalculatorParameters& param);
         void remove (int index);
         void reset();

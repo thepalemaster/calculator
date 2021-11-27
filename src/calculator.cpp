@@ -1,9 +1,8 @@
 #include "calculator.hpp"
-#include "shape_model.hpp"
 
+#include <tuple>
 
-
-template <typename Head, typename ...Tail>//нужно пересмотреть функцию которая всё разрулит
+template <typename Head, typename ...Tail>
 constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec, int i) {
     vec.emplace_back(std::make_unique<Head>(i));
     ++i;
@@ -13,7 +12,7 @@ constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec,
 }
 
 template <typename ...ArgTypes>
-std::vector<std::unique_ptr<Shapes::AbstactShape>> generateShapesList() {
+auto generateShapesList() {
     std::vector<std::unique_ptr<Shapes::AbstactShape>> vec;
     std::vector<std::unique_ptr<Shapes::AbstactShape>> vec1;
     vec.reserve(sizeof...(ArgTypes));
@@ -21,9 +20,19 @@ std::vector<std::unique_ptr<Shapes::AbstactShape>> generateShapesList() {
     return vec;
 }
 
-Calculator::Calculator(): shapes{generateShapesList<Shapes::Rectangle, Shapes::Circle>()} {}
+std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes::AbstactShape>>& shapes){
+    std::vector<ShapeModel> models;
+    models.reserve(shapes.size());
+    for(auto& shape: shapes) {
+        models.emplace_back(shape->getOptions());
+    }
+    return models;
+}
 
-void Calculator::calculate(int shapeID, CalculatorParameters& param) {
+Calculator::Calculator(): 
+shapes{generateShapesList<Shapes::Rectangle, Shapes::Circle>()}, models{generateModels(shapes)}  {}
+
+void Calculator::calculate(int shapeID, const CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
     resultList.emplace_back(shapes[shapeID]->calculate(param), shapeID, param);
     totalArea += resultList.back().area;

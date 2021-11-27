@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(projectName parser_test)
+set(projectName model_test)
 
 project(${projectName} VERSION 1.0.0 LANGUAGES CXX)
 
@@ -18,9 +18,12 @@ endif()
 
 
 add_executable(${projectName} 
-    parser_test.cpp
+    model_test.cpp
 )
 
-target_sources(${projectName} PRIVATE ../../src/result.cpp ../../src/parser/parser.cpp)
+target_sources(${projectName} PRIVATE 
+    ../../src/model/iterator.cpp 
+    ../../src/model/shapemodel.cpp
+)
 
 target_include_directories(${projectName} PRIVATE ../../hdr)
