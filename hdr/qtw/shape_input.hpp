@@ -12,6 +12,8 @@ private:
     std::array<QLineEdit*, 4> usedInputLine {};
     std::array<QCheckBox*, 2> usedCheckBox {};
 public:
-    ShapeInput(QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent = nullptr);
+    const int shapeID;
+    ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent = nullptr);
+    void setInput (const Result& result);
     CalculatorParameters getInput();
 };

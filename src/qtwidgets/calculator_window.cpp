@@ -2,7 +2,7 @@
 
 CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     QWidget{parent}, vbox{new QVBoxLayout(this)}, number{new AreaViewer()}, 
-    listViewer{new ShapeListWigdet(calc.models)} {
+    listViewer{new ShapeListWigdet(calc)} {
     calc.setupResultCallback([this](double value){number->updateArea(value);});
     calc.setupListCallback([this, &calc](int index, Result::action action){
         switch (action) {
@@ -23,8 +23,8 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
         }
     });
     auto options = new ShapeOptions(calc);
-    for(auto& currentModel: calc.models) {
-        options->addShape(currentModel);
+    for (int i = 0; i < calc.models.size(); ++i) {
+        options->addShape(i, calc.models[i]);
     }
     vbox->addWidget(options);
     vbox->addWidget(number);

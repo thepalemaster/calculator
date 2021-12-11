@@ -247,5 +247,3 @@ std::pair<const Shapes::Option *, double> ShapeModel::getDoubleInput(int number)
     }
     return {defaultState.params[number].name, defaultState.params[number].defaultValue};
 }
-
-

@@ -1,18 +1,26 @@
 #include <QtWidgets/QPushButton>
-#include "shape_view.hpp"
 
-ShapeViewer::ShapeViewer(const std::vector<ShapeModel>& modelsList, const Result& shapeResult, QWidget* parent):
-QWidget(parent), models{modelsList}, hbox{new QHBoxLayout()}, shapeInfo {new QLabel()}{
-    shapeInfo->setText(getText(shapeResult));
-    hbox->addWidget(shapeInfo);
-    auto buttonRemove = new QPushButton("-");
-    buttonRemove->setFlat(true);
-    hbox->addWidget(buttonRemove);
-    setLayout(hbox);
+#include "shape_view.hpp"
+#include "modal_option.hpp"
+
+
+
+ShapeViewer::ShapeViewer(Calculator& calc, const Result& shapeResult, QWidget* parent):
+QWidget(parent), calculator{calc}
+{
+    ui.setupUi(this);
+    ui.shapeInfo->setText(getText(shapeResult));
+    connect(ui.removeButton, &QPushButton::clicked, this, [this](){
+        calculator.remove(index);
+    });
+    connect(ui.editButton, &QPushButton::clicked, this, [this, /*!!!*/&shapeResult](){
+        auto modalWin= new ModalOptions(index, calculator, shapeResult);
+        modalWin->show();
+    });
 }
 
 QString ShapeViewer::getText(const Result& shapeResult) {
-    auto format = models[shapeResult.shapeID]
+    auto format = calculator.models[shapeResult.shapeID]
         .getFormat(shapeResult.param.options[0], shapeResult.param.options[1]);
     int expectedSize = format->text.size() + 5 * 10;
     char buff[expectedSize];
@@ -30,6 +38,10 @@ QString ShapeViewer::getText(const Result& shapeResult) {
 }
 
 void ShapeViewer::newShape(const Result& shapeResult) {
-    shapeInfo->setText(getText(shapeResult));
+    ui.shapeInfo->setText(getText(shapeResult));
 }
 
+void ShapeViewer::setInvisible() {
+    ui.shapeInfo->clear();
+    this->hide();
+}

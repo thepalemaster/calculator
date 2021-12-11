@@ -3,8 +3,8 @@
 #include <QtWidgets/QGroupBox>
 
 
-ShapeInput::ShapeInput(QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent):
-QWidget(parent) {
+ShapeInput::ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent):
+QWidget(parent), shapeID{id} {
     auto mainLayout = new QVBoxLayout();
     auto newGroup = new QGroupBox(name);
     auto innerLayout = new QVBoxLayout();
@@ -37,13 +37,29 @@ CalculatorParameters ShapeInput::getInput() {
     CalculatorParameters params {};
     for (int i = 0; i < 4; ++i) {
         if (usedInputLine[i]) {
-            params.numbers[i] = (usedInputLine[i + 1]->text().toDouble());
+            params.numbers[i] = (usedInputLine[i]->text().toDouble());
         }
     }
     for (int i = 0; i < 2; ++i) {
         if (usedCheckBox[i]) {
-            params.options[i] = (usedCheckBox[i + 1]->isChecked());
+            params.options[i] = (usedCheckBox[i]->isChecked());
         }
     }
     return params;
 }
+
+void ShapeInput::setInput(const Result& result){ 
+    for(size_t i = 0; i < result.param.numbers.size(); ++i) {
+        if (result.param.numbers[i]){
+            usedInputLine[i]->setText(QString::number(result.param.numbers[i]));
+        } else {
+            break;
+        }
+    }
+    for (size_t i = 0; i < result.param.options.size(); ++i) {
+        if (result.param.options[i]) {
+            usedCheckBox[i]->setCheckState(Qt::CheckState::Checked);
+        }
+    }
+}
+

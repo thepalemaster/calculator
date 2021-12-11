@@ -1,6 +1,5 @@
 #include "calculator.hpp"
 
-#include <tuple>
 
 template <typename Head, typename ...Tail>
 constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec, int i) {
@@ -34,6 +33,10 @@ shapes{generateShapesList<Shapes::Rectangle, Shapes::Circle>()}, models{generate
 
 void Calculator::calculate(int shapeID, const CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
+    auto number = models[shapeID].getParamNumber();
+    for (int i = 0; i < number; ++i) {
+        if (!param.numbers[i]) return;
+    }
     resultList.emplace_back(shapes[shapeID]->calculate(param), shapeID, param);
     totalArea += resultList.back().area;
     resultCallback(totalArea); 

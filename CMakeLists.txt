@@ -11,50 +11,43 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check https://doc.qt.io/qt/deployment-android.html for more information.
-# They need to be set before the find_package( ...) calls below.
+set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(CORE_SOURCES
-        src/calculator.cpp
-        src/shape_areas.cpp
-        src/shapes.cpp
-        src/result.cpp
-        src/model/shape_model.cpp
-        src/model/iterator.cpp
+    src/calculator.cpp
+    src/shape_areas.cpp
+    src/shapes.cpp
+    src/result.cpp
+    src/model/shape_model.cpp
+    src/model/iterator.cpp
 )
 
 set(PARSER_SOURCES
-        src/parser/parser.cpp
+    src/parser/parser.cpp
 )
 
 set(CONSOLE_VIEW_SOURCES
-        src/console/console_view.cpp
-        src/console/main_console.cpp
-        src/console/shape_info.cpp
+    src/console/console_view.cpp
+    src/console/main_console.cpp
+    src/console/shape_info.cpp
 )
 
 set(QTWIDGETS_SOURCES
-        src/qtwidgets/main_qtwidgets.cpp
-        src/qtwidgets/area_view.cpp
-        src/qtwidgets/calculator_window.cpp
-        src/qtwidgets/shape_view.cpp
-        src/qtwidgets/shape_options.cpp
-        src/qtwidgets/shape_buttons.cpp
-        src/qtwidgets/shape_list.cpp
-        src/qtwidgets/shape_input.cpp
+    src/qtwidgets/main_qtwidgets.cpp
+    src/qtwidgets/area_view.cpp
+    src/qtwidgets/calculator_window.cpp
+    src/qtwidgets/shape_view.cpp
+    src/qtwidgets/shape_options.cpp
+    src/qtwidgets/shape_buttons.cpp
+    src/qtwidgets/shape_list.cpp
+    src/qtwidgets/shape_input.cpp
+    hdr/qtw/shape_view.hpp
+    src/qtwidgets/modal_options.cpp
+    hdr/qtw/modal_option.hpp
 )
   
 add_library(calculator STATIC
@@ -86,6 +79,7 @@ target_link_libraries(qt_area_calc PRIVATE
     calculator
     parser
     shape_model
+    Qt${QT_VERSION_MAJOR}::Widgets
 )
 
 target_link_libraries(area_calc PRIVATE 
@@ -98,7 +92,7 @@ target_include_directories(calculator PUBLIC hdr)
 target_include_directories(parser PUBLIC hdr)
 target_include_directories(shape_model PUBLIC hdr)
 target_include_directories(area_calc PRIVATE hdr)
-target_include_directories(qt_area_calc PRIVATE hdr/qtw)
+target_include_directories(qt_area_calc PUBLIC hdr/qtw)
         
 
 set_target_properties(area_calc PROPERTIES
@@ -106,5 +100,3 @@ set_target_properties(area_calc PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
-
-target_link_libraries(qt_area_calc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

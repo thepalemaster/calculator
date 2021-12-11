@@ -11,5 +11,5 @@ private:
     QStackedLayout* stackLayout;
 public:
     ShapeOptions(Calculator& calc, QWidget* parent = nullptr);
-    void addShape(const ShapeModel& model);
+    void addShape(int id, const ShapeModel& model);
 };

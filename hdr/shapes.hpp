@@ -2,11 +2,6 @@
 #include <vector>
 #include "result.hpp"
 
-/*
-* Для добавления фигуры необходимо унаследоваться от от класса AbstactShape
-* и переопределить виртуальный метод double calculate(std::string input)
-*/
-
 namespace Shapes
 {
     enum OptionType
@@ -42,7 +37,6 @@ namespace Shapes
         const std::vector<Option> options;
     public:
         const int shapeID;
-        AbstactShape();
         AbstactShape(int id,  std::initializer_list<Option> list);
         virtual double calculate(const CalculatorParameters& param) const;
         const std::vector<Shapes::Option>& getOptions() const;

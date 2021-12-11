@@ -4,7 +4,6 @@
 
 
 namespace Shapes {
-    AbstactShape::AbstactShape(): shapeID{-1} {}
     
     AbstactShape::AbstactShape(int id, std::initializer_list<Shapes::Option> list):
     options{list}, shapeID{id}

@@ -2,19 +2,19 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
 
-#include "shape_model.hpp"
-#include "result.hpp"
+#include "ui_shape_view.h"
+#include "calculator.hpp"
 
 
 class ShapeViewer: public QWidget{
+    Q_OBJECT
 private:
-    const std::vector<ShapeModel>& models;
-    QHBoxLayout* hbox;
-    QLabel* shapeInfo;
-
-    
+    Ui::ShapeView ui;
+    Calculator &calculator;
 public:
-    ShapeViewer(const std::vector<ShapeModel>& modelsList, const Result& shapeResult, QWidget* parent = nullptr);
+    int index;
+    ShapeViewer(Calculator& calc, const Result& shapeResult, QWidget* parent = nullptr);
     void newShape(const Result& shapeResult);
     QString getText(const Result& shapeResult);
+    void setInvisible();
 };
