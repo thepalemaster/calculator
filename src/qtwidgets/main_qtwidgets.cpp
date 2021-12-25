@@ -9,5 +9,4 @@ int main (int argc, char *argv[])
     CalculatorMainWindow qtWidgetCalc(calc);
     qtWidgetCalc.show();
     return app.exec();
-    
 }

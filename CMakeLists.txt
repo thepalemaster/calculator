@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Svg REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Svg REQUIRED)
 
 set(CORE_SOURCES
     src/calculator.cpp
@@ -48,6 +48,7 @@ set(QTWIDGETS_SOURCES
     hdr/qtw/shape_view.hpp
     src/qtwidgets/modal_options.cpp
     hdr/qtw/modal_option.hpp
+    res/resourses.qrc
 )
   
 add_library(calculator STATIC
@@ -80,6 +81,7 @@ target_link_libraries(qt_area_calc PRIVATE
     parser
     shape_model
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Svg
 )
 
 target_link_libraries(area_calc PRIVATE 

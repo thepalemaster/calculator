@@ -22,7 +22,3 @@ double CalculatorParameters::getFactor() const {
 Result::Result(double shapeArea, int id, CalculatorParameters calcParam):
 area{shapeArea}, shapeID {id}, param {calcParam}
 {}
-
-
-
-

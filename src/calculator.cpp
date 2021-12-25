@@ -29,14 +29,18 @@ std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes:
 }
 
 Calculator::Calculator(): 
-shapes{generateShapesList<Shapes::Rectangle, Shapes::Circle>()}, models{generateModels(shapes)}  {}
+shapes{generateShapesList<
+    Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
+    Shapes::Sphere, Shapes::Hexagon
+    >()}, models{generateModels(shapes)}  {}
 
-void Calculator::calculate(int shapeID, const CalculatorParameters& param) {
+void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
     auto number = models[shapeID].getParamNumber();
     for (int i = 0; i < number; ++i) {
         if (!param.numbers[i]) return;
     }
+    normalizeParams(param);
     resultList.emplace_back(shapes[shapeID]->calculate(param), shapeID, param);
     totalArea += resultList.back().area;
     resultCallback(totalArea); 
@@ -60,6 +64,7 @@ void Calculator::remove(int index){
 
 void Calculator::edit (int index, CalculatorParameters& param) {
     if (index < 0 || index >= resultList.size()) return;
+    normalizeParams(param);
     totalArea -= resultList[index].area;
     resultList[index].param = param;
     resultList[index].area = shapes[resultList[index].shapeID]->calculate(param);
@@ -71,6 +76,18 @@ void Calculator::edit (int index, CalculatorParameters& param) {
 const std::vector<Result>& Calculator::getResultList() const{
     return resultList;
 }
+
+void Calculator::normalizeParams(CalculatorParameters& calc) {
+    for(auto& x: calc.numbers) {
+        if (x < 0) {
+            x = -x;
+            if (calc.factor > 0) {
+                calc.factor = -calc.factor;
+            }
+        }
+    }
+}
+
 
 const std::vector<std::unique_ptr<Shapes::AbstactShape>> & Calculator::getShapes() const {
     return shapes;

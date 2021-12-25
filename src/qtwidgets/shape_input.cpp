@@ -1,23 +1,21 @@
 #include "shape_input.hpp"
 #include "result.hpp"
 #include <QtWidgets/QGroupBox>
-
+#include <QtWidgets/QFormLayout>
 
 ShapeInput::ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent):
 QWidget(parent), shapeID{id} {
     auto mainLayout = new QVBoxLayout();
     auto newGroup = new QGroupBox(name);
     auto innerLayout = new QVBoxLayout();
+    auto formLayout = new QFormLayout();
     mainLayout->addWidget(newGroup);
     for (int i = 1; i < 5; ++i) {
         if (!params[i]) break;
-        auto nameLabel = new QLabel(params[i]->text.data());
         auto inputDouble = new QLineEdit();
         usedInputLine[i - 1] = inputDouble;
-        auto inputBox = new QHBoxLayout();
-        inputBox->addWidget(nameLabel);
-        inputBox->addWidget(inputDouble);
-        innerLayout->addLayout(inputBox);
+        formLayout->addRow(params[i]->text.data(), inputDouble);
+        innerLayout->addLayout(formLayout);
     }
     if (params[5]) {
         auto cbox = new QCheckBox(params[5]->text.data());

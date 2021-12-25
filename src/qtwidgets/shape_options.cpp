@@ -10,9 +10,11 @@ QWidget(parent), buttons{new ShapeButtons()}, stackLayout{new QStackedLayout()}{
     auto calcButton = new QPushButton("КАЛЬКУЛИРОВАТЬ");
     vbox->addWidget(calcButton);
     setLayout(vbox);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
     connect(calcButton, &QPushButton::clicked, calcButton, [this, &calc](){
         auto inputWidget = static_cast<ShapeInput*>(stackLayout->currentWidget());
-        calc.calculate(inputWidget->shapeID, inputWidget->getInput());
+        auto temp = inputWidget->getInput();
+        calc.calculate(inputWidget->shapeID, temp);
     });
 }
 

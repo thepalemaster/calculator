@@ -4,7 +4,6 @@
 #include "modal_option.hpp"
 
 
-
 ShapeViewer::ShapeViewer(Calculator& calc, const Result& shapeResult, QWidget* parent):
 QWidget(parent), calculator{calc}
 {
@@ -13,8 +12,8 @@ QWidget(parent), calculator{calc}
     connect(ui.removeButton, &QPushButton::clicked, this, [this](){
         calculator.remove(index);
     });
-    connect(ui.editButton, &QPushButton::clicked, this, [this, /*!!!*/&shapeResult](){
-        auto modalWin= new ModalOptions(index, calculator, shapeResult);
+    connect(ui.editButton, &QPushButton::clicked, this, [this](){
+        auto modalWin = new ModalOptions(index, calculator, calculator.getResultList()[index]);//сделать чтобы это удобоваримее
         modalWin->show();
     });
 }

@@ -1,9 +1,17 @@
 #include "shape_list.hpp"
 
 ShapeListWigdet::ShapeListWigdet(Calculator& calc, QWidget* parent):
-QFrame(parent), calculator{calc}, mainBox{new QVBoxLayout()} {
-    setLayout(mainBox);
-    this->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum));
+QScrollArea(parent), calculator{calc}, mainBox{new QVBoxLayout()} {
+    mainWidget = new QWidget();
+    auto externLayout = new QVBoxLayout();
+    externLayout->addLayout(mainBox);
+    externLayout->addStretch(1);
+    //mainWidget->resize(200,200);
+    mainWidget->setLayout(externLayout);
+    setWidget(mainWidget);
+    setWidgetResizable(true);
+    setFrameShape(QFrame::NoFrame);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 }
 
 

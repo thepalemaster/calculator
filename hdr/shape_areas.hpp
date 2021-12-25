@@ -14,4 +14,22 @@ namespace Shapes {
         Circle(int id);
         virtual double calculate(const CalculatorParameters& param) const override;
     };
+    
+    class Cylinder: public AbstactShape {
+    public:
+        Cylinder(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
+    
+    class Sphere: public AbstactShape {
+    public:
+        Sphere(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
+    
+    class Hexagon: public AbstactShape {
+    public:
+        Hexagon(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
 }
