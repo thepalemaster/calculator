@@ -114,21 +114,6 @@ void ConsoleView::printStatus() {
     std::cout << totalAreaLiteral << totalArea << '\n';
 }
 
-std::string ConsoleView::resultToString(const Result& result) {
-    auto format = calculator.models[result.shapeID].getFormat(result.param.options[0], result.param.options[1]);
-    std::string s(format->text.size() + 5 * 10, '\0');
-    int y = std::snprintf(s.data(), s.size(), format->text.data(), result.area, result.param.numbers[0], result.param.numbers[1],
-                        result.param.numbers[2], result.param.numbers[3]);
-    if (y > s.size()) {
-        s.resize(y, '\0');
-        std::sprintf(s.data(), format->text.data(), result.area, result.param.numbers[0], result.param.numbers[1],
-                        result.param.numbers[2], result.param.numbers[3]);
-    } else {
-        s.resize(y);
-    }
-    return s;
-}
-
 void ConsoleView::printHelp() {
     std::cout << availableShapes;
     for (int i = 0; i < helpList.size(); ++i) {

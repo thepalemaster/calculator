@@ -23,12 +23,23 @@ const QString areaName ("<strong>дм<sup>2</sup></strong>");
 
 const double almostIntergral = 1.0e-7;
 
+QString fromValueToStr(const double value) {
+    auto rounded = std::lround(value);
+    double delta = std::abs(value - rounded);
+    QString str;
+    if (delta < almostIntergral) {
+        str = QString::number(rounded);
+    } else {
+        str = QString::number(value, 'f', 5);
+    }
+    return str;
+}
+
 AreaViewer::AreaViewer(QWidget *parent):
 QWidget(parent), box{new QHBoxLayout()}, info(new QLabel(areaName))  {
     box->addStretch();
     for (auto& num: numbers) {
         num = new QSvgWidget(empty);
-        //num->resize(50,80);
         box->addWidget(num);
     }
     numbers[11]->load(num0);
@@ -39,14 +50,7 @@ QWidget(parent), box{new QHBoxLayout()}, info(new QLabel(areaName))  {
 
 void AreaViewer::updateArea(double value) {
     currentArea = value;
-    auto rounded = std::lround(value);
-    double delta = std::abs(value - rounded);
-    QString str;
-    if (delta < almostIntergral) {
-        str = QString::number(rounded);
-    } else {
-        str = QString::number(value, 'f');
-    }
+    QString str = fromValueToStr(value);
     auto len = str.size();
     if (len > 12) len = 12;
     while (previousLen > len) {

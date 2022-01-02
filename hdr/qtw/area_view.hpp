@@ -5,6 +5,8 @@
 
 class QSvgWidget;
 
+QString fromValueToStr(double value);
+
 class AreaViewer: public QWidget {
     //Q_OBJECT
 private:
@@ -21,3 +23,5 @@ public:
 public slots:
     void updateArea(double value);
 };
+
+

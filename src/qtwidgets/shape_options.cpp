@@ -7,7 +7,7 @@ QWidget(parent), buttons{new ShapeButtons()}, stackLayout{new QStackedLayout()}{
     auto vbox = new QVBoxLayout();
     vbox->addWidget(buttons);
     vbox->addLayout(stackLayout);
-    auto calcButton = new QPushButton("КАЛЬКУЛИРОВАТЬ");
+    auto calcButton = new QPushButton("Рассчитать");
     vbox->addWidget(calcButton);
     setLayout(vbox);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));

@@ -44,7 +44,6 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     buttonBox->addWidget(buttonClear);
     buttonBox->addWidget(buttonClipboard);
     vbox->addLayout(buttonBox);
-    //vbox->addStretch(1);
     setLayout(vbox);
     resize(500, 600);
 }

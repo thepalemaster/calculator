@@ -32,4 +32,10 @@ namespace Shapes {
         Hexagon(int id);
         virtual double calculate(const CalculatorParameters& param) const override;
     };
+    
+    class Bushing: public AbstactShape {
+    public:
+        Bushing(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
 }

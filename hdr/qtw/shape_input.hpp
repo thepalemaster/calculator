@@ -11,6 +11,7 @@ class ShapeInput: public QWidget{
 private:
     std::array<QLineEdit*, 4> usedInputLine {};
     std::array<QCheckBox*, 2> usedCheckBox {};
+    QLineEdit* factorLineEdit;
 public:
     const int shapeID;
     ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent = nullptr);

@@ -4,7 +4,7 @@
 
 #include "calculator.hpp"
 #include "shape_model.hpp"
-
+#include "utility_shape_text.hpp"
 
 class ConsoleView {
 private:
@@ -15,13 +15,13 @@ private:
         std::string item;
         switch (action) {
             case Result::NEW_ITEM :
-                list.push_back(resultToString(calculator.getResultList()[index]));
+                list.push_back(Utility::getText<std::string>(calculator.getResultList()[index], calculator));
                 break;
             case Result::RESET:
                 list.clear();
                 break;
             case Result::CHANGE_ITEM:
-                list[index] = resultToString(calculator.getResultList()[index]);
+                list[index] = Utility::getText<std::string>(calculator.getResultList()[index], calculator);
                 break;
             case Result::REMOVE_ITEM:
                 list.erase(list.begin() + index);

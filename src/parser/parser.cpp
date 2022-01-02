@@ -1,4 +1,6 @@
 #include "parser.hpp"
+#include "calculator.hpp"
+
 #include <cstring>
 #include <cerrno>  
 
@@ -112,7 +114,7 @@ namespace Parser {
 
     CalculatorParameters getCalcParams (std::string_view input, int paramNumber) {
         CalculatorParameters calcParam;
-        if (paramNumber > 4)
+        if (paramNumber > 4 || paramNumber < 0)
             throw std::invalid_argument("incorrect number of parameters");
         for (int i = 0; i < paramNumber; ++i) {
             while (input[0] == ' ') {
@@ -125,10 +127,10 @@ namespace Parser {
                 }
                 calcParam.numbers[i] = toDouble(input);
                 input.remove_prefix(input.size());
-                break;
+            } else {
+                calcParam.numbers[i] = toDouble({input.data(), pos});
+                input.remove_prefix(pos + 1);
             }
-            calcParam.numbers[i] = toDouble({input.data(), pos});
-            input.remove_prefix(pos + 1);
         }
         while (input[0] == ' ') {
             input.remove_prefix(1);
@@ -136,7 +138,7 @@ namespace Parser {
         if (!input.empty()) {
             size_t pos = input.find(" ");
             if (pos == std::string_view::npos) {
-                pos = input.size() - 1;
+                pos = input.size();
             }
             calcParam.setFactor(toDouble({input.data(), pos}));
             input.remove_prefix(pos + 1);
@@ -169,4 +171,6 @@ namespace Parser {
         if (result.ptr != end) x = 0;
         return x;
     }
+    
+
 }

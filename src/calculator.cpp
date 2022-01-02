@@ -1,6 +1,5 @@
 #include "calculator.hpp"
 
-
 template <typename Head, typename ...Tail>
 constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec, int i) {
     vec.emplace_back(std::make_unique<Head>(i));
@@ -31,7 +30,7 @@ std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes:
 Calculator::Calculator(): 
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
-    Shapes::Sphere, Shapes::Hexagon
+    Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing
     >()}, models{generateModels(shapes)}  {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
@@ -41,7 +40,8 @@ void Calculator::calculate(int shapeID, CalculatorParameters& param) {
         if (!param.numbers[i]) return;
     }
     normalizeParams(param);
-    resultList.emplace_back(shapes[shapeID]->calculate(param), shapeID, param);
+    resultList.emplace_back(
+        shapes[shapeID]->calculate(param) * param.factor, shapeID, param);
     totalArea += resultList.back().area;
     resultCallback(totalArea); 
     listCallback(resultList.size() - 1, Result::NEW_ITEM);

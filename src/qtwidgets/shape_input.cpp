@@ -1,7 +1,10 @@
-#include "shape_input.hpp"
-#include "result.hpp"
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QFormLayout>
+
+#include "shape_input.hpp"
+#include "result.hpp"
+#include "area_view.hpp"
+
 
 ShapeInput::ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent):
 QWidget(parent), shapeID{id} {
@@ -17,6 +20,8 @@ QWidget(parent), shapeID{id} {
         formLayout->addRow(params[i]->text.data(), inputDouble);
         innerLayout->addLayout(formLayout);
     }
+    factorLineEdit = new QLineEdit();
+    formLayout->addRow("Коэффициент", factorLineEdit);
     if (params[5]) {
         auto cbox = new QCheckBox(params[5]->text.data());
         innerLayout->addWidget(cbox);
@@ -38,6 +43,10 @@ CalculatorParameters ShapeInput::getInput() {
             params.numbers[i] = (usedInputLine[i]->text().toDouble());
         }
     }
+    const auto factorStr = factorLineEdit->text();
+    if (factorStr != "1" && !factorStr.isEmpty()) {
+        params.setFactor(factorStr.toDouble());
+    }
     for (int i = 0; i < 2; ++i) {
         if (usedCheckBox[i]) {
             params.options[i] = (usedCheckBox[i]->isChecked());
@@ -49,15 +58,15 @@ CalculatorParameters ShapeInput::getInput() {
 void ShapeInput::setInput(const Result& result){ 
     for(size_t i = 0; i < result.param.numbers.size(); ++i) {
         if (result.param.numbers[i]){
-            usedInputLine[i]->setText(QString::number(result.param.numbers[i]));
+            usedInputLine[i]->setText(fromValueToStr(result.param.numbers[i]));
         } else {
             break;
         }
     }
+    factorLineEdit->setText(fromValueToStr(result.param.factor));
     for (size_t i = 0; i < result.param.options.size(); ++i) {
         if (result.param.options[i]) {
             usedCheckBox[i]->setCheckState(Qt::CheckState::Checked);
         }
     }
 }
-

@@ -33,7 +33,7 @@ set(PARSER_SOURCES
 set(CONSOLE_VIEW_SOURCES
     src/console/console_view.cpp
     src/console/main_console.cpp
-    src/console/shape_info.cpp
+    #src/console/shape_info.cpp
 )
 
 set(QTWIDGETS_SOURCES
@@ -69,11 +69,11 @@ add_library(shape_model STATIC
 
 
 add_executable(area_calc
-        ${CONSOLE_VIEW_SOURCES}
+    ${CONSOLE_VIEW_SOURCES}
 )
 
 add_executable(qt_area_calc
-      ${QTWIDGETS_SOURCES}
+    ${QTWIDGETS_SOURCES}
 )
 
 target_link_libraries(qt_area_calc PRIVATE 

@@ -11,7 +11,7 @@ namespace Shapes {
         Option {"rect", SHORT_NAME},
         Option {"Сторона А", INPUT_DOUBLE_1},
         Option {"Сторона Б", INPUT_DOUBLE_2},
-        Option {"Прямоугольник S: %f (%f × %f)", PRINTF_TEMPLATE}
+        Option {"Прямоугольник S: %g (%g × %g)", PRINTF_TEMPLATE}
     })
     {}
     
@@ -24,7 +24,7 @@ namespace Shapes {
         Option {"Круг", NAME},
         Option {"circle", SHORT_NAME},
         Option {"Диаметр", INPUT_DOUBLE_1},
-        Option {"Круг S: %f, D: %f", PRINTF_TEMPLATE}
+        Option {"Круг S: %g, D: %g", PRINTF_TEMPLATE}
     })
     {}
     
@@ -38,7 +38,7 @@ namespace Shapes {
         Option {"cyl", SHORT_NAME},
         Option {"Высота", INPUT_DOUBLE_1},
         Option {"Диаметр", INPUT_DOUBLE_2},
-        Option {"Цилиндр S: %f, h: %f, D: %f", PRINTF_TEMPLATE}
+        Option {"Цилиндр S: %g, h: %g, D: %g", PRINTF_TEMPLATE}
     }){}
     
     double Cylinder::calculate(const CalculatorParameters& param) const {
@@ -50,7 +50,7 @@ namespace Shapes {
         Option {"Шар", NAME},
         Option {"sphere", SHORT_NAME},
         Option {"Диаметр", INPUT_DOUBLE_1},
-        Option {"Шар S: %f, D: %f", PRINTF_TEMPLATE}
+        Option {"Шар S: %g, D: %g", PRINTF_TEMPLATE}
     })
     {}
     
@@ -64,9 +64,10 @@ namespace Shapes {
         Option {"hex", SHORT_NAME},
         Option {"Диаметр", INPUT_DOUBLE_1},
         Option {"Диаметр вписаной окружности", INPUT_BOOL_1},
-        Option {"Шестиугольник S: %f, D(описаная): %f", PRINTF_TEMPLATE},
+        Option {"Шестиугольник S: %g, D(описаная): %g", PRINTF_TEMPLATE},
         Option {"", IF_BOOL_1_ON},
-        Option {"Шестиугольник S: %f, d(вписаная): %f", PRINTF_TEMPLATE},
+        Option {"Шестиугольник S: %g, d(вписаная): %g", PRINTF_TEMPLATE},
+        Option {"", FI_BOOL_ON},
     })
     {}
     
@@ -76,5 +77,21 @@ namespace Shapes {
         } else {
             return param.numbers[0] * param.numbers[0] * 3 * sqrt(3) / 2;
         }
+    }
+    
+    Bushing::Bushing(int id):
+    AbstactShape(id, {
+        Option {"Втулка", NAME},
+        Option {"bushing", SHORT_NAME},
+        Option {"Диаметр втулки", INPUT_DOUBLE_1},
+        Option {"Диаметр отверстия", INPUT_DOUBLE_2},
+        Option {"Высота втулки", INPUT_DOUBLE_3},
+        Option {"Втулка S: %g, D: %g, d: %g, h: %g",  PRINTF_TEMPLATE},
+    })
+    {}
+    
+    double Bushing::calculate(const CalculatorParameters& param) const {
+        return PI * ((param.numbers[0] * param.numbers[0] / 4 - param.numbers[1] * param.numbers[1] / 4) * 2 + 
+        param.numbers[2] * (param.numbers[0] + param.numbers[1]));
     }
 }

@@ -4,6 +4,9 @@
 #include <result.hpp>
 
 
+class Calculator;
+
+
 namespace Parser {
     CalculatorParameters getCalcParams(std::string_view, int paramNumber);
     double toDouble (std::string_view number);
