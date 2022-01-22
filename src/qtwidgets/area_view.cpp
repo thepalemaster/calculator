@@ -1,7 +1,6 @@
 #include "area_view.hpp"
 
-//#include <QPicture>
-//#include <QtWidgets/QSvgWidget>
+#include <QtWidgets/QComboBox>
 #include <QtSvg/QSvgWidget>
 #include <cmath>
 
@@ -19,7 +18,7 @@ const QString comma (":/digits/comma.svg");
 const QString minus (":/digits/minus.svg");
 const QString empty (":/digits/empty.svg");
 
-const QString areaName ("<strong>дм<sup>2</sup></strong>");
+const QString areaName ("<strong>**<sup>2</sup></strong>");
 
 const double almostIntergral = 1.0e-7;
 
@@ -36,7 +35,7 @@ QString fromValueToStr(const double value) {
 }
 
 AreaViewer::AreaViewer(QWidget *parent):
-QWidget(parent), box{new QHBoxLayout()}, info(new QLabel(areaName))  {
+QWidget(parent), box{new QHBoxLayout()}, info(new QLabel())  {
     box->addStretch();
     for (auto& num: numbers) {
         num = new QSvgWidget(empty);
@@ -49,7 +48,6 @@ QWidget(parent), box{new QHBoxLayout()}, info(new QLabel(areaName))  {
 }
 
 void AreaViewer::updateArea(double value) {
-    currentArea = value;
     QString str = fromValueToStr(value);
     auto len = str.size();
     if (len > 12) len = 12;
@@ -95,6 +93,11 @@ void AreaViewer::setupDigit(QSvgWidget* digit, QChar symbol) {
 double AreaViewer::getValue(){
     return currentArea;    
 }
+
+void AreaViewer::setMeasure(QString measureUnit) {
+    info->setText(QString("<strong>%1</strong>").arg(measureUnit));
+}
+
 
 
 

@@ -20,8 +20,10 @@ private:
 public:
     explicit AreaViewer(QWidget *parent = nullptr);
     double getValue();
+    
 public slots:
     void updateArea(double value);
+    void setMeasure(QString measureUnit);
 };
 
 

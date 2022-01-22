@@ -1,35 +1,40 @@
-#include <QtWidgets/QGroupBox>
-#include <QtWidgets/QFormLayout>
-
 #include "shape_input.hpp"
 #include "result.hpp"
 #include "area_view.hpp"
 
 
-ShapeInput::ShapeInput(int id, QString name, std::array<const Shapes::Option*, 7> params, QWidget* parent):
+ShapeInput::ShapeInput(int id, QString name, const ShapeModel& model, QWidget* parent):
 QWidget(parent), shapeID{id} {
     auto mainLayout = new QVBoxLayout();
-    auto newGroup = new QGroupBox(name);
+    newGroup = new QGroupBox(name);
     auto innerLayout = new QVBoxLayout();
-    auto formLayout = new QFormLayout();
+    formLayout = new QFormLayout();
+    auto params = model.getParamNames();
     mainLayout->addWidget(newGroup);
     for (int i = 1; i < 5; ++i) {
         if (!params[i]) break;
         auto inputDouble = new QLineEdit();
         usedInputLine[i - 1] = inputDouble;
         formLayout->addRow(params[i]->text.data(), inputDouble);
-        innerLayout->addLayout(formLayout);
     }
+    innerLayout->addLayout(formLayout);
     factorLineEdit = new QLineEdit();
     formLayout->addRow("Коэффициент", factorLineEdit);
     if (params[5]) {
         auto cbox = new QCheckBox(params[5]->text.data());
         innerLayout->addWidget(cbox);
-        usedCheckBox[0] = cbox; 
+        usedCheckBox[0] = cbox;
+        connect(usedCheckBox[0], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
+            bool second = usedCheckBox[1] && usedCheckBox[1]->isChecked() ? true : false;
+            updateNames(model.updateNames(state, second));
+        });
         if (params[6]) {
             auto cbox = new QCheckBox(params[6]->text.data());
             innerLayout->addWidget(cbox);
             usedCheckBox[1] = cbox;
+            connect(usedCheckBox[0], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
+                updateNames(model.updateNames(usedCheckBox[0]->isChecked(), state));
+            });
         }
     }
     newGroup->setLayout(innerLayout);
@@ -70,3 +75,20 @@ void ShapeInput::setInput(const Result& result){
         }
     }
 }
+
+bool ShapeInput::getState(int index) {
+    if (index >= usedCheckBox.size() || index < 0){
+        return false;
+    }
+    return usedCheckBox[index]->isChecked();
+}
+
+void ShapeInput::updateNames(std::array<const Shapes::Option *, 5> newNames) {
+    if (!newNames[0]) return;
+    newGroup->setTitle(newNames[0]->text.data());
+    for (int i = 1; newNames[i]; ++i) {
+        auto label = static_cast<QLabel*>(formLayout->itemAt(i - 1, QFormLayout::LabelRole)->widget());
+        label->setText(newNames[i]->text.data());
+    }
+}
+

@@ -45,30 +45,31 @@ void ConsoleView::addHelpString(std::array<const Shapes::Option *, 7> params) {
     stringStream << '\n';
     for (int i = 1; i < 5; ++i) {
         if(params[i]){
-            stringStream << parameterLiteral << i << ": " << params[i]->text << '\n';
+            stringStream << '\t' << parameterLiteral << i << ": " << params[i]->text << '\n';
         } else {
             break;
         }
     }
     if (params[5]) {
-        stringStream << optionOne << params[5]->text << '\n';
+        stringStream << '\t' << optionOne << params[5]->text << '\n';
         if (params[6]) {
-            stringStream << optionTwo << params[6]->text << '\n';
+            stringStream << '\t' << optionTwo << params[6]->text << '\n';
         }
     }
     helpList.push_back(stringStream.str());
 }
-
 
 void ConsoleView::mainLoop() {
     std::string command;
     while(true) {
         std::cout << '>';
         std::getline(std::cin, command);
-        auto firstSpace = command.find(' ');
-        if (command == "help"){
+        size_t start = 0;
+        while (start < command.size() && command[start] == ' ') start++;
+        auto firstSpace = command.find(' ', start);
+        if (command.rfind("help", start) == start){
             printHelp();
-        } else if (command.rfind("del", 0) == 0) {
+        } else if (command.rfind("del", start) == 0) {
             int i = Parser::pureIntOrZero(command.data() + 3);
             if (!i) {
                 std::cout << optionTwo;
@@ -77,25 +78,52 @@ void ConsoleView::mainLoop() {
                 printStatus();
             }
         } else if (firstSpace != std::string::npos) {
-            auto itr = idMap.find({command, 0, firstSpace});
-            if (itr != idMap.end()) {
-                int id = itr->second;
-                
+            auto searchResult = command.find("measure", start);
+            if (searchResult != std::string::npos) {
                 try {
-                    auto param = Parser::getCalcParams({command.data() + firstSpace, command.size() - firstSpace}, calculator.models[id].getParamNumber());
-                    calculator.calculate(id, param);
-                    printStatus();
-                } catch (std::invalid_argument) {
-                    std::cout << invalidArgument;
+                    auto searchOutput = command.find("output", start);
+                    if (searchOutput != std::string::npos) {
+                        searchOutput += 6;
+                        std::string_view{command.data() + searchOutput, command.size() - searchOutput};
+                        auto result = Parser::toDouble(command.data() + searchOutput, command.size() - searchOutput);
+                        calculator.setMeasureOutput(result);
+                        printStatus();
+                        std::cout << setOutput << result << '\n';
+                    } else {
+                        auto searchInput = command.find("input", start);
+                        if (searchInput != std::string::npos) {
+                            searchInput +=5;
+                            auto result = Parser::toDouble(command.data() + searchInput, command.size() - searchInput);
+                            calculator.setMeasureInput(result);
+                            printStatus();
+                            std::cout << setInput << result << '\n';
+                        } else {
+                            std::cout << wrongMeasure;
+                        }
+                    }
+                } catch (std::invalid_argument e) {
+                    std::cout << e.what();
                 }
             } else {
-                std::cout << unknownCommand;
+                auto itr = idMap.find({command, start, firstSpace});
+                if (itr != idMap.end()) {
+                    int id = itr->second;
+                    try {
+                        auto param = Parser::getCalcParams(command.data() + firstSpace, command.size() - firstSpace, calculator.models[id].getParamNumber());
+                        calculator.calculate(id, param);
+                        printStatus();
+                    } catch (std::invalid_argument) {
+                        std::cout << invalidArgument;
+                    }
+                } else {
+                    std::cout << unknownCommand;
+                }
             }
-        } else if (command == "exit") {
+        } else if (command.rfind("exit", start) == start) {
             break;
-        } else if (command == "clear") {
+        } else if (command.rfind("clear", start) == start) {
             calculator.reset();
-        }else {
+        } else {
             std::cout << wrongCommandFormat;
         }
     }
@@ -115,6 +143,8 @@ void ConsoleView::printStatus() {
 }
 
 void ConsoleView::printHelp() {
+    std::cout << calculatorForArea;
+    std::cout << fullHelp;
     std::cout << availableShapes;
     for (int i = 0; i < helpList.size(); ++i) {
         std::cout << helpList[i];
@@ -124,14 +154,15 @@ void ConsoleView::printHelp() {
             continue;
         }
         if (commands.size() == 1) {
-            std::cout << commandForShape;
+            std::cout << "\t" <<commandForShape;
             std::cout << commands[0]->text << '\n';
         } else {
-            std::cout << commandsForShape;
+            std::cout << "\t" << commandsForShape;
             for (auto command: commands) {
                 std::cout << command->text << ' ';
             }
             std::cout << ".\n";
         }
+        std::cout << '\n';
     }
 }

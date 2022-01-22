@@ -6,8 +6,7 @@ ModalOptions::ModalOptions(int index, Calculator& calc, const Result& oldResult,
 QWidget(parent) {
     modalInput = new ShapeInput(oldResult.shapeID,
                                 calc.models[oldResult.shapeID].getName()->text.data(),
-                                calc.models[oldResult.shapeID].getParamNames()
-                                );
+                                calc.models[oldResult.shapeID]);
     modalInput->setInput(oldResult);
     auto setupButton = new QPushButton("ИЗМЕНИТЬ");
     auto modalLayout = new QVBoxLayout();

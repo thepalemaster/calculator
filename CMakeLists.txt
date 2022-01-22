@@ -48,6 +48,8 @@ set(QTWIDGETS_SOURCES
     hdr/qtw/shape_view.hpp
     src/qtwidgets/modal_options.cpp
     hdr/qtw/modal_option.hpp
+    src/qtwidgets/measure_units.cpp
+    hdr/qtw/measure_units.hpp
     res/resourses.qrc
 )
   
@@ -64,7 +66,6 @@ add_library(parser STATIC
 
 add_library(shape_model STATIC
     src/model/shape_model.cpp
-    src/model/iterator.cpp
 )
 
 

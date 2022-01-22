@@ -20,6 +20,21 @@ namespace english_literals{
     const char* commandsForShape {"Call Commands: "};
     const char* commandForShape {"Call Command: "};
     const char* noCommandsForShape {"No call command for this shape.\n"};
+    const char* wrongMeasure {"Invalid input for measure units"};
+    const char* setOutput {"Magnitude of output measure unit:"};
+    const char* setInput {"Magnitude of input measure unit:"};
+    const char* fullHelp {
+        "The area of primitive shape calculate in the following way:\n"
+        "SHAPE_COMMAND ARGUMENTS [FACTOR] [OPIONS]\n"
+        "ARGUMENTS - numeric values calculating the area. Each figure has its own number of parameters\n"
+        "FACTOR - coefficient by which the resulting area is multiplied, if not specified, the default coefficient is 1\n"
+        "OPTIONS - the options that are set for some shapes have the value YES/NO, are set with the symbols +/-, by default the option is '-' (NO).\n"
+        "'clear' command clears the list of calculated figures\n"
+        "'help' command print this help\n"
+        "'measure input [VALUE]' command sets the multiplicity of input measure units\n"
+        "'measure output [VALUE]' command sets the multiplicity of output units. Note that the multiplicity value is set in units of length, which means that when calculating the area it will be squared.\n"
+        "'exit' command exits this program\n"
+    };
 }
 
 namespace russian_literals {
@@ -41,4 +56,19 @@ namespace russian_literals {
     const char* commandsForShape {"Команды вызова: "};
     const char* commandForShape {"Команда вызова: "};
     const char* noCommandsForShape {"Нет комманд для этой фигуры.\n"};
+    const char* wrongMeasure {"Неверный формат ввода единиц измерений"};
+    const char* setOutput {"Значение единицы вывода:"};
+    const char* setInput {"Значение единицы ввода:"};
+    const char* fullHelp {
+        "Площадь простой фигуры рассчитывается следующим способом:\n"
+        "КОМАНДА_ФИГУРЫ ПАРАМЕТРЫ [КОЭФФИЦИЕНТ] [ОПЦИИ]\n"
+        "ПАРАМЕТРЫ - числовые значения для рассчёта площади. У каждой фигуры своё количество параметров\n"
+        "КОЭФФИЦИЕНТ - коэффициент на который домножается полученная плошадь, если не указан то коэффициент по умолчанию равен 1\n"
+        "ОПЦИИ - опции, которые задаются для некоторых фигур, имеет значение ДА/НЕТ, задаются символами +/-, по умолчанию опция равно '-' (НЕТ).\n"
+        "Команда clear отчищает список рассчитаных фигур\n"
+        "Команда help выводит эту справку\n"
+        "Команда measure input [ЗНАЧЕНИЕ] задаёт кратность единиц ввода\n"
+        "Команда measure output [ЗНАЧЕНИЕ] задаёт кратность единиц вывода. Следует иметь в виду что значение кратности задаётся в единицах длинны, а значит при вычислении площади будет возведено в квадрат.\n"
+        "Команда exit выход из этой программы\n"
+    };
 }

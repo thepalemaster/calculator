@@ -14,9 +14,10 @@ namespace Shapes
         INPUT_DOUBLE_2,
         INPUT_DOUBLE_3,
         INPUT_DOUBLE_4,
+        DOUBLE_DEFAULT,
+        
         INPUT_BOOL_1,
         INPUT_BOOL_2,
-        DOUBLE_DEFAULT,
         
         IF_BOOL_1_ON,
         IF_BOOL_2_ON,

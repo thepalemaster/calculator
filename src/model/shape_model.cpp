@@ -1,6 +1,8 @@
 #include "shape_model.hpp"
 #include  <cstring>
 
+const std::string language {"ru"};
+
 ShapeModel::ShapeModel(const std::vector<Shapes::Option> &options) {
     setupOptions(options);
     for(auto& x: defaultState.params) {
@@ -14,9 +16,20 @@ ShapeModel::ShapeModel(const std::vector<Shapes::Option> &options) {
 
  void ShapeModel::setupOptions(const std::vector<Shapes::Option> &options) {
     State currentState = NO_OPTIONS;
-    OptionType previous;
+    OptionType previous = OTHER;
     for (auto& option: options) {
-        previous = OTHER;
+        if (option.type == Shapes::LANGUAGE) {
+            currentState = NO_OPTIONS;
+            if (option.text != language) {
+                previous = ANOTHER_LANG;
+            } else {
+                previous = OTHER;
+            }
+            continue;
+        }
+        if (previous == ANOTHER_LANG) {
+            continue;
+        }
         switch (option.type) {
             case Shapes::IF_BOOL_1_ON:
                 if (stateOptions.empty()) {
@@ -56,7 +69,7 @@ ShapeModel::ShapeModel(const std::vector<Shapes::Option> &options) {
                 stateOptions[1].name = &option;
                 break;
             default:
-                addOption(option, currentState, previous);
+                previous = addOption(option, currentState, previous);
         }
     }
 }
@@ -167,27 +180,7 @@ std::vector<const Shapes::Option*> ShapeModel::getStateOptions(ShapeModel::State
     if (state.printFormat) vect.push_back(state.printFormat);    
     return vect;
 }
-/*
-ShapeModel::Iterator ShapeModel::getRemovedOptions() {
-    if (prevCheckOptions[0] != checkOptions[0]) {
-        if (checkOptions[0]) {
-            if (checkOptions[1]){
-                return Iterator(stateOptions[0].state.get(), stateOptions[2].state.get());
-            } else {
-                return Iterator(stateOptions[0].state.get());
-            }
-        } else {
-            
-        }
-        
-    } else if (prevCheckOptions[1] != checkOptions[1]) {
-        if (checkOptions[1]) {
-            
-        } else {}
-    }
-    return Iterator();
-}
-*/
+
 const Shapes::Option* ShapeModel::getFormat(bool first, bool second) const {
     if (stateOptions.size() == 3) {
         if (first && second && stateOptions[2].init 
@@ -231,6 +224,36 @@ std::array<const Shapes::Option*, 7> ShapeModel::getParamNames() const {
     }
     return paramNames;
 }
+
+void ShapeModel::applyState(std::array<const Shapes::Option *, 5>& names, const ShapeModel::StateObject& state) const {
+    if (state.name) {
+        names[0] = state.name;
+    }
+    int index = 1;
+    for (auto& param: state.params) {
+        if (param.init) {
+            names[index] = param.name;
+        }
+        ++index;
+    }
+}
+
+std::array<const Shapes::Option *, 5> ShapeModel::updateNames(bool first, bool second) const {
+    std::array<const Shapes::Option*, 5> paramNames{};
+    if (stateOptions.empty()) return paramNames;
+    applyState(paramNames, defaultState);
+    if (second && stateOptions[1].init && stateOptions[1].state) {
+         applyState(paramNames, *stateOptions[1].state);
+    }
+    if (first && stateOptions[0].init && stateOptions[0].state) {
+         applyState(paramNames, *stateOptions[0].state);
+    }
+    if (first && second && stateOptions.size() == 3 && stateOptions[2].state) {
+         applyState(paramNames, *stateOptions[2].state);
+    }
+    return paramNames;
+}
+
 
 int ShapeModel::getParamNumber() const {
     return paramNumber;

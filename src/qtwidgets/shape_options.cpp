@@ -21,9 +21,11 @@ QWidget(parent), buttons{new ShapeButtons()}, stackLayout{new QStackedLayout()}{
 void ShapeOptions::addShape(int id, const ShapeModel& model) {
     auto nameString = QString(model.getName()->text.data());
     auto currentButton = buttons->newButton(nameString);
-    auto newInput = new ShapeInput(id, nameString, model.getParamNames());
+    auto newInput = new ShapeInput(id, nameString, model);
     int index = stackLayout->addWidget(newInput);
     connect(currentButton, &QPushButton::clicked, stackLayout, [currentPage{stackLayout}, index](){
         currentPage->setCurrentIndex(index);
     });
 }
+
+

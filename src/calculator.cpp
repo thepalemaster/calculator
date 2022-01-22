@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "calculator.hpp"
 
 template <typename Head, typename ...Tail>
@@ -27,11 +29,11 @@ std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes:
     return models;
 }
 
-Calculator::Calculator(): 
+Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
     Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing
-    >()}, models{generateModels(shapes)}  {}
+    >()}, models{generateModels(shapes)} {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
@@ -41,7 +43,7 @@ void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     }
     normalizeParams(param);
     resultList.emplace_back(
-        shapes[shapeID]->calculate(param) * param.factor, shapeID, param);
+        shapes[shapeID]->calculate(param) * param.factor / ratio, shapeID, param);
     totalArea += resultList.back().area;
     resultCallback(totalArea); 
     listCallback(resultList.size() - 1, Result::NEW_ITEM);
@@ -88,7 +90,6 @@ void Calculator::normalizeParams(CalculatorParameters& calc) {
     }
 }
 
-
 const std::vector<std::unique_ptr<Shapes::AbstactShape>> & Calculator::getShapes() const {
     return shapes;
 }
@@ -103,4 +104,34 @@ void Calculator::setupListCallback(std::function<void (int, Result::action)> cal
 
 void Calculator::setupResultCallback(std::function<void (double)> callback) {
     resultCallback = callback;
+}
+
+void Calculator::setMeasureOutput(double value) {
+    if (!std::isnormal(value)) return;
+    double updateFactor = outputMagnitude / value;
+    for (size_t i = 0; i < resultList.size(); ++i) {
+        resultList[i].area *= updateFactor;
+        listCallback(i, Result::CHANGE_ITEM);
+    }
+    totalArea *= updateFactor;
+    resultCallback(totalArea);
+    outputMagnitude = value;
+    double newRatio = outputMagnitude / inputMagnitude;
+    newRatio *= newRatio;
+    ratio = newRatio;
+}
+
+void Calculator::setMeasureInput(double value) {
+    if (!std::isnormal(value)) return;
+    double updateFactor = inputMagnitude / value;
+    for (size_t i = 0; i < resultList.size(); ++i) {
+        for (auto& num: resultList[i].param.numbers){
+            num *= updateFactor;
+        }
+        listCallback(i, Result::CHANGE_ITEM);
+    }
+    inputMagnitude = value;
+    double newRatio = outputMagnitude / inputMagnitude;
+    newRatio *= newRatio;
+    ratio = newRatio;
 }

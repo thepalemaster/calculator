@@ -19,13 +19,14 @@ bool almost_equal(CalculatorParameters x, CalculatorParameters y) {
          almost_equal(x.numbers[1], y.numbers[1], 2) &&
          almost_equal(x.numbers[2], y.numbers[2], 2) &&
          almost_equal(x.numbers[3], y.numbers[3], 2) &&
+         almost_equal(x.factor, y.factor, 2)&&
          x.options[0] == y.options[0] && x.options[1] == y.options[1];
 }
 
 void make_test (std::string s, double y) {
     double x;
     try {
-        x = Parser::toDouble(s);
+        x = Parser::toDouble(s.data(), s.size());
     } catch (std::invalid_argument) {
         std::cout << "[-] Incorrect parse: \"" << s << "\". Parse function throw exception (expected value = " << y << ")" << '\n';
         return;
@@ -77,7 +78,7 @@ std::string to_string (CalculatorParameters z) {
 void make_console_test (std::string s, int number, CalculatorParameters z) {
     CalculatorParameters x;
     try {
-        x = Parser::getCalcParams(s, number);
+        x = Parser::getCalcParams(s.data(), s.size(), number);
     } catch (std::invalid_argument) {
         std::cout << "[-] Incorrect parse: \"" << s << "\"(param number:" << number << "). Parse function throw exception (expected value = " << to_string(z) << ")" << '\n';
         return;
@@ -99,6 +100,7 @@ int main () {
     make_test ("45,5 - 55.6", -10.1);
     make_test ("  + 2 -  -  1", 3);
     make_test ("", 0);
+    make_test ("+ +", 0);
     make_test (" 45. 45", 45);
     make_test ("+45- 12.5+7 -0,5 - 8,7", 30.3);
     
@@ -123,9 +125,11 @@ int main () {
     param = CalculatorParameters {true, 4.75};
     param.setFactor(8.6);
     make_console_test ("4.5+2.5-1,5-0,75 7,6+1 +", 1, param);
+    param = CalculatorParameters {true, true, 3, 4 };
+    make_console_test ("3 4 + +", 2, param);
     
     std::cout << "--- Test of Parser::pureIntOrZero function ---\n";
-    make_test_int_zero("1", 1);
+    make_test_int_zero(" 1", 1);
     make_test_int_zero("a", 0);
     make_test_int_zero("1 d", 0);
     make_test_int_zero("   4  ", 4);

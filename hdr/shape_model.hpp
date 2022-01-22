@@ -5,9 +5,6 @@
 
 #include <memory>
 
-//#include <iterator>
-//#include <cstddef>
-
 
 class ShapeModel {
 private: 
@@ -23,6 +20,7 @@ private:
         FLOAT_2,
         FLOAT_3,
         FLOAT_4,
+        ANOTHER_LANG,
         OTHER,
     };
     
@@ -50,6 +48,7 @@ private:
     StateObject defaultState;
     std::vector<OptionObject> stateOptions;
     void setupOptions(const std::vector<Shapes::Option> &options);
+    void applyState(std::array<const Shapes::Option*, 5>& names, const StateObject& state) const;
     OptionType addOption(const Shapes::Option &option, State state, OptionType prev);
     StateObject& currentStateObject(ShapeModel::State state);
     void initDouble (int number, StateObject& state, const Shapes::Option& option);
@@ -57,6 +56,7 @@ private:
     std::vector<const Shapes::Option*> getStateOptions (StateObject& state);
     
 public:
+    static const std::string& lang;
     ShapeModel(const std::vector<Shapes::Option> &options);
     ShapeModel(Shapes::AbstactShape &newShape);
     int getParamNumber() const;
@@ -64,45 +64,7 @@ public:
     std::pair<const Shapes::Option*, double> getDoubleInput(int number);
     const Shapes::Option* getFormat(bool first, bool second = false) const;
     const std::vector<const Shapes::Option*>& getDefaultShortNames() const;
-    const std::vector<const Shapes::Option&>& getOptionsToRemove();
-    const std::vector<const Shapes::Option&>& getOptionsToAdd();
     std::array<const Shapes::Option*, 7> getParamNames() const; 
-    class Iterator{
-    private:
-        enum Step {
-            NAME,
-            SHORT_NAMES,
-            PARAMS_NAME,
-            PARAMS_DEFAULT,
-            FORMAT,
-            END_STATE,
-            END,
-        };
-        Step currentStep = END;
-        int index = 0;
-        const Shapes::Option* result = nullptr;
-        StateObject *state = nullptr;
-        StateObject *additionalState = nullptr;
-        StateObject *currentState = nullptr;
+    std::array<const Shapes::Option*, 5> updateNames(bool first, bool second) const; 
 
-    public:
-        using iterator_category = std::bidirectional_iterator_tag;
-        using difference_type   = std::ptrdiff_t;
-        using value_type        = const Shapes::Option;
-        using pointer           = const Shapes::Option*;
-        using reference         = const Shapes::Option&;
-        
-        Iterator();
-        Iterator (StateObject *first, StateObject *second = nullptr);
-        Iterator& begin();
-        Iterator& end();
-        reference operator*() const;
-        pointer operator->();
-        Iterator& operator++();
-        Iterator& operator++(int);
-        bool operator!=(const ShapeModel::Iterator& other) const;
-    };
-    static Iterator endIt;
-    Iterator getRemovedOptions();
-    Iterator getAddedOption();
 };

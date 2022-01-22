@@ -1,6 +1,7 @@
 #include <QClipboard>
 
 #include "calcutator_window.hpp"
+#include "measure_units.hpp"
 
 
 CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
@@ -26,10 +27,13 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
         }
     });
     auto options = new ShapeOptions(calc);
+    auto measure = new MeasureUnits(calc);
     for (int i = 0; i < calc.models.size(); ++i) {
         options->addShape(i, calc.models[i]);
     }
+    connect(measure, &MeasureUnits::changedInputName, number, &AreaViewer::setMeasure);
     vbox->addWidget(options);
+    vbox->addWidget(measure);
     vbox->addWidget(number);
     vbox->addWidget(listViewer);
     auto buttonBox = new QHBoxLayout();
@@ -45,5 +49,6 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     buttonBox->addWidget(buttonClipboard);
     vbox->addLayout(buttonBox);
     setLayout(vbox);
+    measure->setDefaults();
     resize(500, 600);
 }

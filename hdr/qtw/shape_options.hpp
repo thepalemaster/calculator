@@ -10,6 +10,6 @@ private:
     ShapeButtons* buttons;
     QStackedLayout* stackLayout;
 public:
-    ShapeOptions(Calculator& calc, QWidget* parent = nullptr);
+    ShapeOptions(Calculator& calculator, QWidget* parent = nullptr);
     void addShape(int id, const ShapeModel& model);
 };

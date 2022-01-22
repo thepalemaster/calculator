@@ -7,10 +7,18 @@ namespace Shapes {
     
     Rectangle::Rectangle(int id): 
     AbstactShape(id, { 
-        Option {"Прямоугольник", NAME},
         Option {"rect", SHORT_NAME},
+        
+        Option {"ru", LANGUAGE},
+        Option {"Прямоугольник", NAME},
         Option {"Сторона А", INPUT_DOUBLE_1},
         Option {"Сторона Б", INPUT_DOUBLE_2},
+        Option {"Прямоугольник S: %g (%g × %g)", PRINTF_TEMPLATE},
+                 
+        Option {"eng", LANGUAGE},
+        Option {"Rectangle", NAME},
+        Option {"Length", INPUT_DOUBLE_1},
+        Option {"Height", INPUT_DOUBLE_2},
         Option {"Прямоугольник S: %g (%g × %g)", PRINTF_TEMPLATE}
     })
     {}
@@ -21,10 +29,17 @@ namespace Shapes {
     
     Circle::Circle(int id):
     AbstactShape(id, {
-        Option {"Круг", NAME},
         Option {"circle", SHORT_NAME},
+        
+        Option {"ru", LANGUAGE},
+        Option {"Круг", NAME},
         Option {"Диаметр", INPUT_DOUBLE_1},
-        Option {"Круг S: %g, D: %g", PRINTF_TEMPLATE}
+        Option {"Круг S: %g, D: %g", PRINTF_TEMPLATE},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Circle", NAME},
+        Option {"Diameter", INPUT_DOUBLE_1},
+        Option {"Circle S: %g, D: %g", PRINTF_TEMPLATE}
     })
     {}
     
@@ -34,11 +49,19 @@ namespace Shapes {
     
     Cylinder::Cylinder(int id):
     AbstactShape(id, {
-        Option {"Цилиндр", NAME},
         Option {"cyl", SHORT_NAME},
+        
+        Option {"ru", LANGUAGE},
+        Option {"Цилиндр", NAME},
         Option {"Высота", INPUT_DOUBLE_1},
         Option {"Диаметр", INPUT_DOUBLE_2},
-        Option {"Цилиндр S: %g, h: %g, D: %g", PRINTF_TEMPLATE}
+        Option {"Цилиндр S: %g, h: %g, D: %g", PRINTF_TEMPLATE},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Cylinder", NAME},
+        Option {"Height", INPUT_DOUBLE_1},
+        Option {"Diameter", INPUT_DOUBLE_2},
+        Option {"Cylinder S: %g, h: %g, D: %g", PRINTF_TEMPLATE}
     }){}
     
     double Cylinder::calculate(const CalculatorParameters& param) const {
@@ -47,10 +70,17 @@ namespace Shapes {
     
     Sphere::Sphere(int id):
     AbstactShape(id, {
-        Option {"Шар", NAME},
         Option {"sphere", SHORT_NAME},
+        
+        Option {"ru", LANGUAGE},
+        Option {"Шар", NAME},
         Option {"Диаметр", INPUT_DOUBLE_1},
-        Option {"Шар S: %g, D: %g", PRINTF_TEMPLATE}
+        Option {"Шар S: %g, D: %g", PRINTF_TEMPLATE},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Sphere", NAME},
+        Option {"Diameter", INPUT_DOUBLE_1},
+        Option {"Sphere S: %g, D: %g", PRINTF_TEMPLATE}
     })
     {}
     
@@ -60,13 +90,26 @@ namespace Shapes {
     
     Hexagon::Hexagon(int id):
     AbstactShape(id, {
-        Option {"Шестиугольник", NAME},
         Option {"hex", SHORT_NAME},
-        Option {"Диаметр", INPUT_DOUBLE_1},
-        Option {"Диаметр вписаной окружности", INPUT_BOOL_1},
-        Option {"Шестиугольник S: %g, D(описаная): %g", PRINTF_TEMPLATE},
-        Option {"", IF_BOOL_1_ON},
+        
+        Option {"ru", LANGUAGE},
+        Option {"Шестиугольник", NAME},
+        Option {"Диаметр вписанной окружности", INPUT_DOUBLE_1},
+        Option {"Описанная окружность", INPUT_BOOL_1},
         Option {"Шестиугольник S: %g, d(вписаная): %g", PRINTF_TEMPLATE},
+        Option {"", IF_BOOL_1_ON},
+        Option {"Шестиугольник S: %g, D(описаная): %g", PRINTF_TEMPLATE},
+        Option {"Диаметр описанной окружности", INPUT_DOUBLE_1},
+        Option {"", FI_BOOL_ON},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Hexagon", NAME},
+        Option {"Diameter of inscribed circle", INPUT_DOUBLE_1},
+        Option {"Сircumscribed circle", INPUT_BOOL_1},
+        Option {"Hexagon S: %g, d(inscribed): %g", PRINTF_TEMPLATE},
+        Option {"", IF_BOOL_1_ON},
+        Option {"Hexagon S: %g, D(circumscribed): %g", PRINTF_TEMPLATE},
+        Option {"Diameter of circumscribed circle", INPUT_DOUBLE_1},
         Option {"", FI_BOOL_ON},
     })
     {}
@@ -81,12 +124,20 @@ namespace Shapes {
     
     Bushing::Bushing(int id):
     AbstactShape(id, {
-        Option {"Втулка", NAME},
         Option {"bushing", SHORT_NAME},
+        Option {"ru", LANGUAGE},
+        Option {"Втулка", NAME},
         Option {"Диаметр втулки", INPUT_DOUBLE_1},
         Option {"Диаметр отверстия", INPUT_DOUBLE_2},
         Option {"Высота втулки", INPUT_DOUBLE_3},
         Option {"Втулка S: %g, D: %g, d: %g, h: %g",  PRINTF_TEMPLATE},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Bushing", NAME},
+        Option {"Outer diameter", INPUT_DOUBLE_1},
+        Option {"Inner diameter", INPUT_DOUBLE_2},
+        Option {"Height", INPUT_DOUBLE_3},
+        Option {"Bushing S: %g, D: %g, d: %g, h: %g",  PRINTF_TEMPLATE},
     })
     {}
     
