@@ -8,10 +8,12 @@
 #include <QtWidgets/QFormLayout>
 
 #include "shape_model.hpp"
+#include "inputnumberqvalidator.hpp"
 
 
 class ShapeInput: public QWidget{
 private:
+    InputNumberQValidator validator;
     std::array<QLineEdit*, 4> usedInputLine {};
     std::array<QCheckBox*, 2> usedCheckBox {};
     QGroupBox* newGroup;

@@ -103,7 +103,7 @@ void ConsoleView::mainLoop() {
                     }
                 } catch (std::invalid_argument e) {
                     std::cout << e.what();
-                }
+                }  
             } else {
                 auto itr = idMap.find({command, start, firstSpace});
                 if (itr != idMap.end()) {

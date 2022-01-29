@@ -21,6 +21,9 @@ add_executable(${projectName}
     parser_test.cpp
 )
 
-target_sources(${projectName} PRIVATE ../../src/result.cpp ../../src/parser/parser.cpp)
+target_sources(${projectName} PRIVATE 
+    ../../src/result.cpp 
+    ../../src/parser/parser.cpp
+)
 
 target_include_directories(${projectName} PRIVATE ../../hdr)

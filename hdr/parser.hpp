@@ -12,6 +12,6 @@ namespace Parser {
     //double toDouble (std::string_view number);
     double toDouble (char* input, size_t len);
     bool toBool (std::string_view boolean);
-    int pureIntOrZero(std::string_view command) noexcept;
-    int pureIntOrExcept(std::string_view command);
+    int pureIntOrZero(const std::string& command) noexcept;
+    int pureIntOrExcept(const std::string& command);
 }

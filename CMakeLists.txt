@@ -50,6 +50,8 @@ set(QTWIDGETS_SOURCES
     hdr/qtw/modal_option.hpp
     src/qtwidgets/measure_units.cpp
     hdr/qtw/measure_units.hpp
+    src/qtwidgets/inputnumberqvalidator.cpp
+    hdr/qtw/inputnumberqvalidator.hpp
     res/resourses.qrc
 )
   

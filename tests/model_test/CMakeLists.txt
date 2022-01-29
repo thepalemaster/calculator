@@ -22,8 +22,9 @@ add_executable(${projectName}
 )
 
 target_sources(${projectName} PRIVATE 
-    ../../src/model/iterator.cpp 
     ../../src/model/shapemodel.cpp
+    ../../src/shapes.cpp
+    ../../src/result.cpp
 )
 
 target_include_directories(${projectName} PRIVATE ../../hdr)

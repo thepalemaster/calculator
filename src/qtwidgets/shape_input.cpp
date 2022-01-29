@@ -14,11 +14,13 @@ QWidget(parent), shapeID{id} {
     for (int i = 1; i < 5; ++i) {
         if (!params[i]) break;
         auto inputDouble = new QLineEdit();
+        inputDouble->setValidator(&validator);
         usedInputLine[i - 1] = inputDouble;
         formLayout->addRow(params[i]->text.data(), inputDouble);
     }
     innerLayout->addLayout(formLayout);
     factorLineEdit = new QLineEdit();
+    factorLineEdit->setValidator(&validator);
     formLayout->addRow("Коэффициент", factorLineEdit);
     if (params[5]) {
         auto cbox = new QCheckBox(params[5]->text.data());
