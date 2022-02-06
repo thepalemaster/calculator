@@ -19,10 +19,12 @@ endif()
 
 add_executable(${projectName} 
     model_test.cpp
+    make_model_test.cpp
 )
 
 target_sources(${projectName} PRIVATE 
-    ../../src/model/shapemodel.cpp
+    ../../src/model/shape_model.cpp
+    ../../src/shape_areas.cpp
     ../../src/shapes.cpp
     ../../src/result.cpp
 )

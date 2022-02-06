@@ -8,7 +8,7 @@ QWidget(parent) {
                                 calc.models[oldResult.shapeID].getName()->text.data(),
                                 calc.models[oldResult.shapeID]);
     modalInput->setInput(oldResult);
-    auto setupButton = new QPushButton("ИЗМЕНИТЬ");
+    auto setupButton = new QPushButton("Изменить");
     auto modalLayout = new QVBoxLayout();
     modalLayout->addWidget(modalInput);
     modalLayout->addWidget(setupButton);

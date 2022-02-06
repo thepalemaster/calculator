@@ -38,4 +38,10 @@ namespace Shapes {
         Bushing(int id);
         virtual double calculate(const CalculatorParameters& param) const override;
     };
+    
+    class HexPrism: public AbstactShape {
+    public:
+        HexPrism(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
 }

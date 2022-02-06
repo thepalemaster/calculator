@@ -242,7 +242,7 @@ std::array<const Shapes::Option *, 5> ShapeModel::updateNames(bool first, bool s
     std::array<const Shapes::Option*, 5> paramNames{};
     if (stateOptions.empty()) return paramNames;
     applyState(paramNames, defaultState);
-    if (second && stateOptions[1].init && stateOptions[1].state) {
+    if (second && stateOptions.size() >=2  && stateOptions[1].init && stateOptions[1].state) {
          applyState(paramNames, *stateOptions[1].state);
     }
     if (first && stateOptions[0].init && stateOptions[0].state) {

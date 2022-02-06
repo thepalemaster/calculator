@@ -75,8 +75,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../../../../svg/remixicon/RemixIcon-master/icons/Design/edit-2-line.svg</normaloff>../../../../svg/remixicon/RemixIcon-master/icons/Design/edit-2-line.svg</iconset>
+      <iconset resource="../res/resourses.qrc">
+       <normaloff>:/icons/edit.svg</normaloff>:/icons/edit.svg</iconset>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -107,8 +107,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../../../../svg/remixicon/RemixIcon-master/icons/System/close-line.svg</normaloff>../../../../svg/remixicon/RemixIcon-master/icons/System/close-line.svg</iconset>
+      <iconset resource="../res/resourses.qrc">
+       <normaloff>:/icons/remove.svg</normaloff>:/icons/remove.svg</iconset>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -117,6 +117,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res/resourses.qrc"/>
+ </resources>
  <connections/>
 </ui>

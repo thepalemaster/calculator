@@ -56,7 +56,6 @@ private:
     std::vector<const Shapes::Option*> getStateOptions (StateObject& state);
     
 public:
-    static const std::string& lang;
     ShapeModel(const std::vector<Shapes::Option> &options);
     ShapeModel(Shapes::AbstactShape &newShape);
     int getParamNumber() const;

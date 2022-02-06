@@ -32,7 +32,7 @@ std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes:
 Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
-    Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing
+    Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism
     >()}, models{generateModels(shapes)} {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {

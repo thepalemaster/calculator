@@ -1,138 +1,172 @@
-#include <iostream>
-include "shape_model.hpp"
+#include "model_test.hpp"
 
-struct ModelAsserts {
-private:
-    std::array<std::string, 16> doubleNames;
-    std::array<std::string, 4> format;
-public:
-     std::string name;
-     std::string lang;
-     int paramNumbers;
-     std::vector<std::string> shortNames;
-     std::array<std::string, 2> boolNames;
-     
-     void setDoubleName (std::string str, int param, bool option1 = false, bool option2 = false) {
-         if (param < 1 || param > 4) {
-             return std::string{};
+
+
+void compare_short_names (const ShapeModel& model, const ModelAsserts& amodel ) {
+    const char* error = "[-] Short names of shape not compare\n";
+    bool equal = true;
+    if (amodel.shortNames.size() != model.getDefaultShortNames().size()) {
+        std::cout << error << "\t Number of short names in model differs from expected\n";
+    } else {
+        for (size_t i = 0; i < amodel.shortNames.size(); ++i) {
+            if (amodel.shortNames[i] != model.getDefaultShortNames()[i]->text) {
+                if (equal) {
+                    std::cout << error;
+                    equal = false;
+                }
+                std::cout << "\t Short names are not equal. Expected: " << amodel.shortNames[i] << "From model: " << model.getDefaultShortNames()[i]->text << '\t';
+            }
         }
-         int index = param - 1 + option1 * 4 + option2 * 8;
-         doubleNames[index] = str;
+        if (equal) {
+            std::cout << "[+] Short names of shape are equal\n";
+        }
     }
-    std::string getDoubleName (int param, bool option1 = false, bool option2 = false) {
-        return doubleNames[param - 1 + option1 * 4 + option2 * 8];
-    }
-    void setFormat (std::string str, bool option1 = false, bool option2 = false) {
-         int index = (option1 * 1 + option2 * 3) - 1;
-         format[index] = str;
-    }
-    
-    std::string getFormat (bool option1 = false, bool option2 = false) {
-         int index = (option1 * 1 + option2 * 3) - 1;
-         return format[index];
-    }
-    
 }
 
-bool compare_short_names (const ShapeModel& model, const ModelAsserts& amodel ) {
-    if (amodel.shortNames.size() != model.getDefaultShortNames().size()) return false;
-    for (size_t i = 0; i < amodel.shortNames.size(); ++i) {
-        if (amodel.shortNames[i] != model.getDefaultShortNames()[i]->text)
-            return false;
+void compare_numbers_names_case (const ShapeModel& model, const ModelAsserts& amodel) {
+    bool equal = true;
+    const char* error = "[-] Number names are not equal (for options)\n";
+    bool first;
+    bool second;
+    int i = 1;
+    while (i < 4) {
+        first = i & 1;
+        second = i > 1;
+        auto names = model.updateNames(first, second);
+        for (size_t index = 0; index < 4; ++index) {
+            if (amodel.doubleNames[index + i * 4].empty() ^ !names[index + 1]) {
+                if (equal) {
+                    std::cout << error;
+                    equal = false;
+                }
+                std::cout << "\tFor index " << index << ", option 1: " << std::boolalpha << first
+                << ", option 2: " << std::boolalpha << second; 
+                if (!names[index + 1]) {
+                    std::cout << ", name expected: " << amodel.doubleNames[index + i * 4] << ", but name from model are empty.\n";
+                } else {
+                    std::cout << ", unexpected name from model: " << names[index + 1]->text <<'\n';
+                }
+                
+            } else if (names[index + 1] && (names[index + 1]->text != amodel.doubleNames[index + i * 4])) {
+                if (equal) {
+                    std::cout << error;
+                    equal = false;
+                }
+                std::cout << "\tFor index " << index << ", option 1: " << std::boolalpha << first
+                << ", option 2: " << std::boolalpha << second << " Name expected: " << amodel.doubleNames[index + i * 4] << "\n\t"
+                << " Name from model: " << names[index + 1]->text;
+            }
+        }
+        ++i;
     }
-    return true;
+    if (equal) {
+        std::cout << "[+] Number names are equal (for options)\n";
+    }
 }
 
-void compare_format (const ShapeModel& model, const ModelAsserts& amodel ) {
-    bool equal;
-    char* error = "[-] Format string not equal:
-    if (amodel.getFormat(false, false) == model.getFormat(false, false)->text) {
+
+void compare_numbers_names (const ShapeModel& model, const ModelAsserts& amodel) {
+    bool equal = true;
+    const char* error = "[-] Number names are not equal\n";
+    auto names = model.getParamNames();;
+    for (size_t index = 0; index < 4; ++index) {
+        if (amodel.doubleNames[index].empty() ^ !names[index + 1]) {
+            if (equal) {
+                std::cout << error;
+                equal = false;
+            }
+            std::cout << "\tFor number number " << index + 1;
+            if (!names[index + 1]) {
+                std::cout << ", name from model are empty, but expected name: " << amodel.doubleNames[index] <<'\n';
+            } else {
+                std::cout << ", name expected: " << amodel.doubleNames[index] << ", but name from model are empty.\n";
+            }
+        } else if (names[index + 1] && (names[index + 1]->text != amodel.doubleNames[index])) {
+            if (equal) {
+                std::cout << error;
+                equal = false;
+            }
+            std::cout << "\tFor number number " << index + 1 << " Name expected: " << amodel.doubleNames[index]
+            << " Name from model: " << names[index + 1]->text << '\n';
+        }
+    }
+    if (equal) {
+        std::cout << "[+] Number names are equal\n";
+    }
+}
+
+void compare_option_names(const ShapeModel& model, const ModelAsserts& amodel) {
+    bool equal = true;
+    const char* error = "[-] Option names are not equal\n";
+    auto names = model.getParamNames();
+    if (!(amodel.boolNames[0].empty() && !names[5]) && amodel.boolNames[0] != names[5]->text) {
+        std::cout << error;
+        equal = false;
+        std::cout << "\tOption 1. Name expected: " << amodel.boolNames[0]
+                    << " Name from model: " << names[5]->text << '\n';
+    }
+    if (!(amodel.boolNames[1].empty() && !names[6]) && amodel.boolNames[1] != names[6]->text) {
+        if (equal) {
+            std::cout << error;
+            equal = false;
+        }
+        std::cout << "\tOption 2. Name expected: " << amodel.boolNames[1]
+        << " Name from model: " << names[6]->text << '\n';
+    }
+    if (equal) {
+        std::cout << "[+] Option names are equal\n";
+    }
+}
+
+void compare_format (const ShapeModel& model, const ModelAsserts& amodel) {
+    bool equal = true;
+    const char* error = "[-] Format strings are not equal:\n";
+    if (amodel.getFormat(false, false) != model.getFormat(false, false)->text) {
         std::cout << error;
         std::cout << "\tExpected format (false, false): " << amodel.getFormat(false, false) 
-        << "Format from model" << model.getFormat(false, false)->text) << '\n';
+        << "Format from model" << model.getFormat(false, false)->text << '\n';
         equal = false;
     }
-    if (amodel.getFormat(true, false) == model.getFormat(true, false)->text) {
+    if (amodel.getFormat(true, false) != model.getFormat(true, false)->text) {
         if (equal) std::cout << error;
-        std::cout << "\t\tExpected format (true, false):" << amodel.getFormat(true, false) 
-        << " Format from model: " << model.getFormat(true, false)->text) << '\n';
-        return false;
+        std::cout << "\tExpected format (true, false):" << amodel.getFormat(true, false) 
+        << " Format from model: " << model.getFormat(true, false)->text << '\n';
+        equal = false;
     }
-    if (amodel.getFormat(false, true) == model.getFormat(false, true)->text) {
+    if (amodel.getFormat(false, true) != model.getFormat(false, true)->text) {
         if (equal) std::cout << error;
         std::cout << "\tExpected format (false, true):" << amodel.getFormat(false, true) 
-        << " Format from model: " << model.getFormat(false, true)->text) << '\n';
+        << " Format from model: " << model.getFormat(false, true)->text << '\n';
         equal = false;
     }
-    if (amodel.getFormat(true, true) == model.getFormat(true, true)->text) {
+    if (amodel.getFormat(true, true) != model.getFormat(true, true)->text) {
         if (equal) std::cout << error;
         std::cout << "\tExpected format (true, true): " << amodel.getFormat(true, true) 
-        << " Format from model: " << model.getFormat(true, true)->text) << '\n';
+        << " Format from model: " << model.getFormat(true, true)->text << '\n';
         equal = false;
     }
-    if (equal) std::cout << "[+] Format string are equal.
+    if (equal) std::cout << "[+] Format strings are equal.\n";
 }
 
-void compare_names_case(const ShapeModel& model, const ModelAsserts& amodel, bool first, bool second){
-    6bool equal;
-    auto names = model.updateNames(first, second);
-    for (int i = 1; i < names.size(); ++i) {
-        if (names[i]->text != amodel.getDoubleName(i, first, second)) {
-            std::cout << "!!!";
-        }
-    } 
-    
-}
-
-
-void make_test_for_model(ShapeModel model, ModelAsserts amodel){
-    bool equal = true;
-    
-    if (compare_short_names(model, amodel)) {
-        std::cout << "\t[+] Short names are equal\n"
-    } else {
-        std::cout << "\t[-] Short names are not equal\n"
-        std::cout << "\t\t Expected short names: {"
-        for (auto x: amodel.shortNames) std::cout << ' ' << x;
-        std::cout << "}\n";
-        std::cout << "\t\t Short names from model: {"
-        for (auto x: model.getDefaultShortNames()) std::cout << ' ' << x;
-        std::cout << "}\n";
-        equal = false;
-    }
-    
+void make_test_for_model(ShapeModel& model, ModelAsserts& amodel){
     if (amodel.paramNumbers == model.getParamNumber()) {
-        std::cout << "\t[+] Number of parameters are equal"
+        std::cout << "[+] Numbers of parameters are equal\n";
     } else {
-        std::cout << "\t[-] Number of parameters are not equal\n"
-        std::cout << "\t\t Expected number of parameters: " << amodel.paramNumbers << '\n';
-        std::cout << "\t\t Number of parameters from model: " << model.getParamNumber() << '\n';
-        equal = false;
+        std::cout << "[-] Number of parameters are not equal\n";
+        std::cout << "\tExpected number of parameters: " << amodel.paramNumbers << '\n';
+        std::cout << "\tNumber of parameters from model: " << model.getParamNumber() << '\n';
     }
-    
-    if (amodel.lang == model.lang) {
-        std::cout << "\t[+] Name of languages are equal"
+    if (amodel.name[0] == model.getName()->text) {
+        std::cout << "[+] Names of shape are equal\n";
     } else {
-        std::cout << "\t[-] Name of languages not equal\n"
-        std::cout << "\t\t Expected name of language of parameters: " << amodel.lang << '\n';
-        std::cout << "\t\t Name of language from model: " << model.lang << '\n';
-        equal = false;
+        std::cout << "[-] Names of shape are not equal\n";
+        std::cout << "\tExpected name: " << amodel.name[0] << '\n';
+        std::cout << "\tName from model: " << model.getName()->text << '\n';
     }
-    
-    if (amodel.name == model.getName()->text) {
-        std::cout << "\t[+] Name of languages are equal"
-    } else {
-        std::cout << "\t[-] Name of languages are not equal\n"
-        std::cout << "\t\t Expected name of language of parameters: " << amodel.lang << '\n';
-        std::cout << "\t\t Name of language from model: " << model.lang << '\n';
-        equal = false;
-    }
-    compare_format (model, amodel);
-    
+    compare_format(model, amodel);
+    compare_option_names(model, amodel);
+    compare_numbers_names(model, amodel);
+    compare_numbers_names_case(model, amodel);
+    compare_short_names(model, amodel);    
 }
 
-
-
-int main () {
-
-}

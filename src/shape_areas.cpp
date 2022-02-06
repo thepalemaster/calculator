@@ -145,4 +145,39 @@ namespace Shapes {
         return PI * ((param.numbers[0] * param.numbers[0] / 4 - param.numbers[1] * param.numbers[1] / 4) * 2 + 
         param.numbers[2] * (param.numbers[0] + param.numbers[1]));
     }
+    
+    HexPrism::HexPrism(int id):
+    AbstactShape(id, {
+        Option {"hexprism", SHORT_NAME},
+        Option {"ru", LANGUAGE},
+        Option {"Призма (N=6)", NAME},
+        Option {"Диаметр вписанной окружности", INPUT_DOUBLE_1},
+        Option {"Высота призмы", INPUT_DOUBLE_2},
+        Option {"Описанная окружность", INPUT_BOOL_1},
+        Option {"Боковые грани призмы N=6  S: %g, d: %g h: %g",  PRINTF_TEMPLATE},
+        Option {"", IF_BOOL_1_ON},
+        Option {"Боковые грани призмы N=6  S: %g, D: %g h: %g", PRINTF_TEMPLATE},
+        Option {"Диаметр описанной окружности", INPUT_DOUBLE_1},
+        Option {"", FI_BOOL_ON},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Hex Prism", NAME},
+        Option {"Diameter of inscribed circle", INPUT_DOUBLE_1},
+        Option {"Height of prism", INPUT_DOUBLE_2},
+        Option {"Сircumscribed circle", INPUT_BOOL_1},
+        Option {"Sides of hex prism S: %g, d: %g h: %g",  PRINTF_TEMPLATE},
+        Option {"", IF_BOOL_1_ON},
+        Option {"Sides of hex prism S: %g, D: %g h: %g", PRINTF_TEMPLATE},
+        Option {"Diameter of circumscribed circle", INPUT_DOUBLE_1},
+        Option {"", FI_BOOL_ON},
+    })
+    {}
+    
+    double HexPrism::calculate(const CalculatorParameters& param) const {
+        if (param.options[0]) {
+            return 6 * param.numbers[0] * param.numbers[0] * sqrt(3) / 2;
+        } else {
+            return 6 * param.numbers[0] * param.numbers[0];
+        }
+    }
 }
