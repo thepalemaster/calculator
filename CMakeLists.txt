@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(area_calc VERSION 0.1 LANGUAGES CXX)
+project(area_calc VERSION 0.5 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Svg REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Svg REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Widgets Svg REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Widgets Svg REQUIRED)
 
 set(CORE_SOURCES
     src/calculator.cpp
@@ -33,7 +33,6 @@ set(PARSER_SOURCES
 set(CONSOLE_VIEW_SOURCES
     src/console/console_view.cpp
     src/console/main_console.cpp
-    #src/console/shape_info.cpp
 )
 
 set(QTWIDGETS_SOURCES
@@ -54,6 +53,12 @@ set(QTWIDGETS_SOURCES
     hdr/qtw/inputnumberqvalidator.hpp
     res/resourses.qrc
 )
+
+set(QML_SOURCES
+        src/qml/main.cpp
+        src/qml/qml.qrc
+)
+
   
 add_library(calculator STATIC
     src/calculator.cpp
@@ -70,13 +75,27 @@ add_library(shape_model STATIC
     src/model/shape_model.cpp
 )
 
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(empty
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+    )
+    qt_add_executable(qml_calc
+        MANUAL_FINALIZATION
+        ${QML_SOURCES}
+    )
+else()
+    add_executable(qt_area_calc
+        ${QTWIDGETS_SOURCES}
+    )
+
+    add_executable(qml_calc
+        ${QML_SOURCES}
+    )
+endif()
 
 add_executable(area_calc
     ${CONSOLE_VIEW_SOURCES}
-)
-
-add_executable(qt_area_calc
-    ${QTWIDGETS_SOURCES}
 )
 
 target_link_libraries(qt_area_calc PRIVATE 
@@ -105,3 +124,19 @@ set_target_properties(area_calc PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
+
+target_compile_definitions(qml_calc
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_link_libraries(qml_calc
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+
+set_target_properties(qml_calc PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_import_qml_plugins(qml_calc)
+    qt_finalize_executable(qml_calc)
+endif()

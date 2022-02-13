@@ -3,22 +3,21 @@
 #include <QtWidgets/QComboBox>
 #include <QtSvg/QSvgWidget>
 #include <cmath>
+#include <QLatin1String>
 
-const QString num0 (":/digits/0.svg");
-const QString num1 (":/digits/1.svg");
-const QString num2 (":/digits/2.svg");
-const QString num3 (":/digits/3.svg");
-const QString num4 (":/digits/4.svg");
-const QString num5 (":/digits/5.svg");
-const QString num6 (":/digits/6.svg");
-const QString num7 (":/digits/7.svg");
-const QString num8 (":/digits/8.svg");
-const QString num9 (":/digits/9.svg");
-const QString comma (":/digits/comma.svg");
-const QString minus (":/digits/minus.svg");
-const QString empty (":/digits/empty.svg");
-
-const QString areaName ("<strong>**<sup>2</sup></strong>");
+const QLatin1String num0 (":/digits/0.svg");
+const QLatin1String num1 (":/digits/1.svg");
+const QLatin1String num2 (":/digits/2.svg");
+const QLatin1String num3 (":/digits/3.svg");
+const QLatin1String num4 (":/digits/4.svg");
+const QLatin1String num5 (":/digits/5.svg");
+const QLatin1String num6 (":/digits/6.svg");
+const QLatin1String num7 (":/digits/7.svg");
+const QLatin1String num8 (":/digits/8.svg");
+const QLatin1String num9 (":/digits/9.svg");
+const QLatin1String comma (":/digits/comma.svg");
+const QLatin1String minus (":/digits/minus.svg");
+const QLatin1String empty (":/digits/empty.svg");
 
 const double almostIntergral = 1.0e-7;
 
@@ -29,7 +28,7 @@ QString fromValueToStr(const double value) {
     if (delta < almostIntergral) {
         str = QString::number(rounded);
     } else {
-        str = QString::number(value, 'f', 5);
+        str = QString::number(value, 'g', 5);
     }
     return str;
 }
@@ -44,7 +43,7 @@ QWidget(parent), box{new QHBoxLayout()}, info(new QLabel())  {
     numbers[11]->load(num0);
     box->addWidget(info);
     setLayout(box);
-    resize(200, 200);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 }
 
 void AreaViewer::updateArea(double value) {
@@ -59,7 +58,6 @@ void AreaViewer::updateArea(double value) {
         setupDigit (numbers[11 - i], str[len - i - 1]);
     }
     previousLen = len;
-    
 }
 
 void AreaViewer::setupDigit(QSvgWidget* digit, QChar symbol) {

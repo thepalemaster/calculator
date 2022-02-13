@@ -50,5 +50,5 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     vbox->addLayout(buttonBox);
     setLayout(vbox);
     measure->setDefaults();
-    resize(500, 600);
+    resize(0, 800);
 }

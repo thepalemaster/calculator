@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>AreaViewer.qml</file>
+        <file>ShapeButton.qml</file>
+        <file>ShapeInput.qml</file>
+        <file>ShapeView.qml</file>
+        <file>ResultList.qml</file>
+        <file>ChooseShape.qml</file>
+        <file>Style.qml</file>
+        <file>qmldir</file>
+    </qresource>
+</RCC>

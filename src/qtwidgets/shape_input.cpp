@@ -1,6 +1,7 @@
 #include "shape_input.hpp"
 #include "result.hpp"
 #include "area_view.hpp"
+#include "parser.hpp"
 
 
 ShapeInput::ShapeInput(int id, QString name, const ShapeModel& model, QWidget* parent):
@@ -47,7 +48,8 @@ CalculatorParameters ShapeInput::getInput() {
     CalculatorParameters params {};
     for (int i = 0; i < 4; ++i) {
         if (usedInputLine[i]) {
-            params.numbers[i] = (usedInputLine[i]->text().toDouble());
+            auto str = usedInputLine[i]->text().toLatin1();
+            params.numbers[i] = Parser::toDouble(str.data(), str.size());
         }
     }
     const auto factorStr = factorLineEdit->text();

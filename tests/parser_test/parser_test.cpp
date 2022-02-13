@@ -103,6 +103,7 @@ int main () {
     make_test ("+ +", 0);
     make_test (" 45. 45", 45);
     make_test ("+45- 12.5+7 -0,5 - 8,7", 30.3);
+    make_test ("45.421+52.41  +41", 138.831);
     
     std::cout << "--- Test of Parser::getCalcParams function ---\n";    
     CalculatorParameters param {12., 2., 5.};

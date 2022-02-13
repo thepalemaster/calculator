@@ -66,6 +66,10 @@ void Calculator::remove(int index){
 
 void Calculator::edit (int index, CalculatorParameters& param) {
     if (index < 0 || index >= resultList.size()) return;
+    auto number = models[resultList[index].shapeID].getParamNumber();
+    for (int i = 0; i < number; ++i) {
+        if (!param.numbers[i]) return;
+    }
     normalizeParams(param);
     totalArea -= resultList[index].area;
     resultList[index].param = param;
