@@ -8,25 +8,25 @@
 
 namespace Utility {
     struct MeasureType {
-        QString lenght;
-        QString area;
+        QString name;
+        QString shortNameLen;
         QString shortNameArea;
         double value;
     };
     
     const std::array<MeasureType, 5> units {
-        MeasureType {"метры", "метры квадратные", "м<sup>2</sup>", 10},
-        MeasureType {"дециметры", "дециметры квадратные", "дм<sup>2</sup>", 1},
-        MeasureType {"дюймы", "дюймы квадратные", "дюйм<sup>2</sup>", 0.254},
-        MeasureType {"сантиметры", "сантиметры квадратные", "см<sup>2</sup>", 0.1},
-        MeasureType {"миллиметры", "миллиметры квадратные", "мм<sup>2</sup>", 0.01}
+        MeasureType {"метры", "м", "м²", 10},
+        MeasureType {"дециметры", "дм", "дм²", 1},
+        MeasureType {"дюймы", "дюйм", "дюйм²", 0.254},
+        MeasureType {"сантиметры", "см", "см²", 0.1},
+        MeasureType {"миллиметры", "мм", "мм²", 0.01}
     };
     
     
     inline const QStringList getLenghtList(){
         QStringList list;
         for (auto& unit: units) {
-            list << unit.lenght;
+            list << unit.shortNameLen;
         }
         return list;
     }
@@ -34,7 +34,7 @@ namespace Utility {
     inline const QStringList getAreaList(){
         QStringList list;
         for (auto& unit: units) {
-            list << unit.area;
+            list << unit.shortNameArea;
         }
         return list;
     }

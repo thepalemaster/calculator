@@ -14,7 +14,7 @@ void compare_short_names (const ShapeModel& model, const ModelAsserts& amodel ) 
                     std::cout << error;
                     equal = false;
                 }
-                std::cout << "\t Short names are not equal. Expected: " << amodel.shortNames[i] << "From model: " << model.getDefaultShortNames()[i]->text << '\t';
+                std::cout << "\t Short names are not equal. Expected: " << amodel.shortNames[i] << ". From model: " << model.getDefaultShortNames()[i]->text << '\t';
             }
         }
         if (equal) {

@@ -9,5 +9,8 @@
         <file>ChooseShape.qml</file>
         <file>Style.qml</file>
         <file>qmldir</file>
+        <file>Calculator.qml</file>
+        <file>ShapeCounter.qml</file>
+        <file>InputField.qml</file>
     </qresource>
 </RCC>

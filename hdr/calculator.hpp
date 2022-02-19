@@ -6,10 +6,10 @@
 #include "shape_model.hpp"
 
 
-class Calculator {
+class Calculator final {
 private:
     std::vector<Result> resultList;
-    const std::vector<std::unique_ptr<Shapes::AbstactShape>> shapes;
+    const std::vector<std::unique_ptr<Shapes::AbstractShape>> shapes;
     std::function<void(double)> resultCallback;
     std::function<void(int, Result::action)> listCallback;
     void normalizeParams(CalculatorParameters& calc);
@@ -29,6 +29,7 @@ public:
     void setMeasureOutput(double value);
     void setMeasureInput(double value);
     const std::vector<Result>& getResultList() const;
-    const std::vector<std::unique_ptr<Shapes::AbstactShape>>& getShapes() const;
+    const Result& getResult(int index) const;
+    const std::vector<std::unique_ptr<Shapes::AbstractShape>>& getShapes() const;
     void calculate(int shapeID, CalculatorParameters& param);
 };

@@ -1,9 +1,10 @@
 #include <cmath>
+#include <stdexcept>
 
 #include "calculator.hpp"
 
 template <typename Head, typename ...Tail>
-constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec, int i) {
+constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstractShape>>& vec, int i) {
     vec.emplace_back(std::make_unique<Head>(i));
     ++i;
     if constexpr (sizeof...(Tail) != 0) {
@@ -13,14 +14,14 @@ constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstactShape>>& vec,
 
 template <typename ...ArgTypes>
 auto generateShapesList() {
-    std::vector<std::unique_ptr<Shapes::AbstactShape>> vec;
-    std::vector<std::unique_ptr<Shapes::AbstactShape>> vec1;
+    std::vector<std::unique_ptr<Shapes::AbstractShape>> vec;
+    std::vector<std::unique_ptr<Shapes::AbstractShape>> vec1;
     vec.reserve(sizeof...(ArgTypes));
     addShape<ArgTypes...>(vec, 0);
     return vec;
 }
 
-std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes::AbstactShape>>& shapes){
+std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes::AbstractShape>>& shapes){
     std::vector<ShapeModel> models;
     models.reserve(shapes.size());
     for(auto& shape: shapes) {
@@ -32,8 +33,8 @@ std::vector<ShapeModel> generateModels(const std::vector<std::unique_ptr<Shapes:
 Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
-    Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism
-    >()}, models{generateModels(shapes)} {}
+    Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism,
+    Shapes::Cuboid>()}, models{generateModels(shapes)} {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
@@ -94,7 +95,7 @@ void Calculator::normalizeParams(CalculatorParameters& calc) {
     }
 }
 
-const std::vector<std::unique_ptr<Shapes::AbstactShape>> & Calculator::getShapes() const {
+const std::vector<std::unique_ptr<Shapes::AbstractShape>> & Calculator::getShapes() const {
     return shapes;
 }
 
@@ -105,6 +106,14 @@ const std::vector<Shapes::Option> & Calculator::shapeOptionsByID(int id) const {
 void Calculator::setupListCallback(std::function<void (int, Result::action)> callback) {
     listCallback = callback;
 }
+
+const Result& Calculator::getResult(int index) const {
+    if (index < 0 || index >= resultList.size()) {
+        throw std::out_of_range("Broken invariant");
+    }
+    return resultList[index];
+}
+
 
 void Calculator::setupResultCallback(std::function<void (double)> callback) {
     resultCallback = callback;

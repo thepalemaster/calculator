@@ -15,13 +15,13 @@ private:
         std::string item;
         switch (action) {
             case Result::NEW_ITEM :
-                list.push_back(Utility::getText<std::string>(calculator.getResultList()[index], calculator));
+                list.push_back(Utility::getText<std::string>(calculator.getResult(index), calculator));
                 break;
             case Result::RESET:
                 list.clear();
                 break;
             case Result::CHANGE_ITEM:
-                list[index] = Utility::getText<std::string>(calculator.getResultList()[index], calculator);
+                list[index] = Utility::getText<std::string>(calculator.getResult(index), calculator);
                 break;
             case Result::REMOVE_ITEM:
                 list.erase(list.begin() + index);
@@ -38,7 +38,7 @@ private:
     void printStatus();
     void printHelp();
     std::string resultToString(const Result& result);
-    void setupOptions (Shapes::AbstactShape& shape);
+    void setupOptions (Shapes::AbstractShape& shape);
     void addHelpString(std::array<const Shapes::Option*, 7> params);
 
 public:

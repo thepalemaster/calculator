@@ -1,15 +1,15 @@
 import QtQuick 2.0
 
-Item {
-    Rectangle {
-        color: Style.backgroundColor
-        border.color: Style.mainColor
-        border.width: 1
-        anchors.fill: parent
-    }
+Column {
 
-    TextInput{
-        color: Style.mainColor
-        anchors.fill: parent
+    InputField {
+        id: one
+        width: 300
+        height: 60
+    }
+    InputField {
+        id: two
+        width: 300
+        height: 60
     }
 }

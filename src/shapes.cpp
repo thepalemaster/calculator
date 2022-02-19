@@ -5,15 +5,15 @@
 
 namespace Shapes {
     
-    AbstactShape::AbstactShape(int id, std::initializer_list<Shapes::Option> list):
+    AbstractShape::AbstractShape(int id, std::initializer_list<Shapes::Option> list):
     options{list}, shapeID{id}
     {}
 
-    double AbstactShape::calculate(const CalculatorParameters&) const {
+    double AbstractShape::calculate(const CalculatorParameters&) const {
         return 100;
     }
         
-    const std::vector<Option>& AbstactShape::getOptions() const {
+    const std::vector<Option>& AbstractShape::getOptions() const {
         return options;
     }
 

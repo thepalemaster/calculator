@@ -14,7 +14,7 @@ QWidget(parent), calculator{calc}
         calculator.remove(index);
     });
     connect(ui.editButton, &QPushButton::clicked, this, [this](){
-        auto modalWin = new ModalOptions(index, calculator, calculator.getResultList()[index]);//сделать чтобы это удобоваримее
+        auto modalWin = new ModalOptions(index, calculator, calculator.getResult(index));
         modalWin->show();
     });
 }

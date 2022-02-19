@@ -33,15 +33,15 @@ namespace Shapes
         OptionType type;
     };
            
-    class AbstactShape {
+    class AbstractShape {
     protected:
         const std::vector<Option> options;
     public:
         const int shapeID;
-        AbstactShape(int id,  std::initializer_list<Option> list);
+        AbstractShape(int id,  std::initializer_list<Option> list);
         virtual double calculate(const CalculatorParameters& param) const;
         const std::vector<Shapes::Option>& getOptions() const;
-        virtual ~AbstactShape(){};
+        virtual ~AbstractShape(){};
     };
         
 }

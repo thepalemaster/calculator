@@ -6,7 +6,7 @@
 #include <memory>
 
 
-class ShapeModel {
+class ShapeModel final {
 private: 
     enum State {
         NO_OPTIONS,
@@ -57,7 +57,7 @@ private:
     
 public:
     ShapeModel(const std::vector<Shapes::Option> &options);
-    ShapeModel(Shapes::AbstactShape &newShape);
+    ShapeModel(Shapes::AbstractShape &newShape);
     int getParamNumber() const;
     const Shapes::Option* getName() const;
     std::pair<const Shapes::Option*, double> getDoubleInput(int number);

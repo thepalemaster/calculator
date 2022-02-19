@@ -3,7 +3,8 @@ import QtQuick 2.0
 
 
 QtObject {
-    property color backgroundColor: "black"
-    property color mainColor: "cyan"
-    property int buttonHeight: 50
+    readonly property color backgroundColor: "black"
+    readonly property color mainColor: "cyan"
+    readonly property color secondaryColor: "darkturquoise"
+    readonly property int buttonHeight: 50
 }

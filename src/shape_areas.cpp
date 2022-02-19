@@ -6,13 +6,13 @@ const double PI = 3.141592653589793;
 namespace Shapes {
     
     Rectangle::Rectangle(int id): 
-    AbstactShape(id, { 
+    AbstractShape(id, { 
         Option {"rect", SHORT_NAME},
         
         Option {"ru", LANGUAGE},
         Option {"Прямоугольник", NAME},
-        Option {"Сторона А", INPUT_DOUBLE_1},
-        Option {"Сторона Б", INPUT_DOUBLE_2},
+        Option {"Сторона A", INPUT_DOUBLE_1},
+        Option {"Сторона B", INPUT_DOUBLE_2},
         Option {"Прямоугольник S: %g (%g × %g)", PRINTF_TEMPLATE},
                  
         Option {"eng", LANGUAGE},
@@ -28,7 +28,7 @@ namespace Shapes {
     }
     
     Circle::Circle(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"circle", SHORT_NAME},
         
         Option {"ru", LANGUAGE},
@@ -48,7 +48,7 @@ namespace Shapes {
     }
     
     Cylinder::Cylinder(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"cyl", SHORT_NAME},
         
         Option {"ru", LANGUAGE},
@@ -69,7 +69,7 @@ namespace Shapes {
     }
     
     Sphere::Sphere(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"sphere", SHORT_NAME},
         
         Option {"ru", LANGUAGE},
@@ -89,7 +89,7 @@ namespace Shapes {
     }
     
     Hexagon::Hexagon(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"hex", SHORT_NAME},
         
         Option {"ru", LANGUAGE},
@@ -123,7 +123,7 @@ namespace Shapes {
     }
     
     Bushing::Bushing(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"bushing", SHORT_NAME},
         Option {"ru", LANGUAGE},
         Option {"Втулка", NAME},
@@ -147,7 +147,7 @@ namespace Shapes {
     }
     
     HexPrism::HexPrism(int id):
-    AbstactShape(id, {
+    AbstractShape(id, {
         Option {"hexprism", SHORT_NAME},
         Option {"ru", LANGUAGE},
         Option {"Призма (N=6)", NAME},
@@ -179,5 +179,29 @@ namespace Shapes {
         } else {
             return 6 * param.numbers[0] * param.numbers[0];
         }
+    }
+    
+    Cuboid::Cuboid(int id):
+    AbstractShape(id, {
+        Option {"cuboid", SHORT_NAME},
+        Option {"ru", LANGUAGE},
+        Option {"Параллелепипед", NAME},
+        Option {"Сторона A", INPUT_DOUBLE_1},
+        Option {"Сторона B", INPUT_DOUBLE_2},
+        Option {"Сторона C", INPUT_DOUBLE_3},
+        Option {"Параллелепипед(кубоид) S: %g, A: %g, B: %g, C: %g",  PRINTF_TEMPLATE},
+        
+        Option {"eng", LANGUAGE},
+        Option {"Cuboid", NAME},
+        Option {"Length", INPUT_DOUBLE_1},
+        Option {"Width", INPUT_DOUBLE_2},
+        Option {"Height", INPUT_DOUBLE_3},
+        Option {"Cuboid S: %g, L: %g, W: %g, H: %g",  PRINTF_TEMPLATE},
+    })
+    {}
+    
+    double Cuboid::calculate(const CalculatorParameters& param) const {
+        return 2 * (param.numbers[0] * param.numbers[1] + param.numbers[1] * param.numbers[2]
+        + param.numbers[0] * param.numbers[2]);
     }
 }

@@ -8,13 +8,13 @@
 
 MeasureUnits::MeasureUnits (Calculator& calc, QWidget *parent):
 QWidget(parent) {
-    auto labelInput = new QLabel("Ввод :");
+    auto labelInput = new QLabel("Единицы ввода :");
     comboInput = new QComboBox();
     comboInput->addItems(Utility::getLenghtList());
     connect(comboInput, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&calc](int index){
         calc.setMeasureInput(Utility::magnitudeByIndex(index));
     });
-    auto labelOutput = new QLabel("Вывод :");
+    auto labelOutput = new QLabel("Единицы вывода :");
     comboOutput = new QComboBox();
     comboOutput->addItems(Utility::getAreaList());
     connect(comboOutput, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, &calc](int index){

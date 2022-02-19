@@ -99,6 +99,19 @@ int main() {
     hexpAModel.shortNames.push_back("hexprism");
     make_test_for_model(hexpModel, hexpAModel);
     std::cout << '\n';
+    
+    Shapes::Cuboid cube(0);
+    ShapeModel cubeModel(cube.getOptions());
+    ModelAsserts cubeAModel;
+    cubeAModel.name[0] = "Параллелепипед";
+    cubeAModel.paramNumbers = 3;
+    cubeAModel.setDoubleName ("Сторона A", 1);
+    cubeAModel.setDoubleName ("Сторона B", 2);
+    cubeAModel.setDoubleName ("Сторона C", 3);
+    cubeAModel.format[0] = "Параллелепипед(кубоид) S: %g, A: %g, B: %g, C: %g";
+    cubeAModel.shortNames.push_back("cuboid");
+    std::cout << "---Cuboid---\n";
+    make_test_for_model(cubeModel, cubeAModel);
+    std::cout << '\n';
+    
 }
-
-

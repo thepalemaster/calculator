@@ -11,13 +11,13 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     calc.setupListCallback([this, &calc](int index, Result::action action){
         switch (action) {
             case Result::NEW_ITEM:
-                listViewer->addItem(calc.getResultList()[index]);
+                listViewer->addItem(calc.getResult(index));
                 break;
             case Result::RESET:
                 listViewer->clear();
                 break;
             case Result::CHANGE_ITEM:
-                listViewer->updateItem(index, calc.getResultList()[index]);
+                listViewer->updateItem(index, calc.getResult(index));
                 break;
             case Result::REMOVE_ITEM:
                 listViewer->removeItem(index);
