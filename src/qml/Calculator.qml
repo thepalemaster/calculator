@@ -29,16 +29,18 @@ Rectangle {
     AreaViewer {
         id: view
         anchors.left: parent.left
-        //anchors.bottom: list.top
         anchors.right: chooser.left
-        anchors.bottom: parent.bottom
-        //anchors.margins: 5
+        anchors.top: input.bottom
+        anchors.margins: 5
     }
 
     ShapeInput{
+        id: input
+        width: parent.width - chooser.width
+        height: parent.height / 2
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: chooser.left
-        //anchors.bottom: view.top
+        anchors.margins: 5
     }
 }

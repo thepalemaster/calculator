@@ -109,7 +109,7 @@ void Calculator::setupListCallback(std::function<void (int, Result::action)> cal
 
 const Result& Calculator::getResult(int index) const {
     if (index < 0 || index >= resultList.size()) {
-        throw std::out_of_range("Broken invariant");
+        throw std::out_of_range("Unknown shape ID");
     }
     return resultList[index];
 }

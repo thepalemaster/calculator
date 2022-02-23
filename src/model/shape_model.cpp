@@ -1,7 +1,11 @@
 #include "shape_model.hpp"
 #include  <cstring>
 
-const std::string language {"ru"};
+#ifdef LANG_ENG
+    const std::string language {"eng"};
+#else 
+    const std::string language {"ru"};
+#endif
 
 ShapeModel::ShapeModel(const std::vector<Shapes::Option> &options) {
     setupOptions(options);

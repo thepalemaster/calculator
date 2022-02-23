@@ -3,6 +3,13 @@
 #include "calcutator_window.hpp"
 #include "measure_units.hpp"
 
+#ifdef LANG_ENG
+    auto clearButtonName = "Clear";
+    auto copyButtonName = "Copy";
+#else 
+    auto clearButtonName = "Очистить";
+    auto copyButtonName = "Скопировать";
+#endif
 
 CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     QWidget{parent}, vbox{new QVBoxLayout()}, number{new AreaViewer()}, 
@@ -37,11 +44,11 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     vbox->addWidget(number);
     vbox->addWidget(listViewer);
     auto buttonBox = new QHBoxLayout();
-    auto buttonClear = new QPushButton("Очистить");
+    auto buttonClear = new QPushButton(clearButtonName);
     connect(buttonClear, &QPushButton::clicked, this, [&calc](){
         calc.reset();
     });
-    auto buttonClipboard = new QPushButton("Скопировать");
+    auto buttonClipboard = new QPushButton(copyButtonName);
     connect(buttonClipboard, &QPushButton::clicked, this, [this, copyBuffer = QApplication::clipboard()](){
         copyBuffer->setText(QString::number(number->getValue()));
     });

@@ -5,7 +5,7 @@ Rectangle {
     color: Style.backgroundColor
     Text {
         color: Style.mainColor
-        text: "3,14159"
+        text: "Area: 3,14159"
         font {
             pointSize: 23
         }

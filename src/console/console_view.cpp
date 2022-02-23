@@ -8,7 +8,14 @@
 #include <sstream>
 #include <limits>
 
-using namespace russian_literals;
+/*
+#ifdef LANG_ENG
+    using namespace english_literals;
+#else
+    using namespace russian_literals;
+#endif*/
+    
+    using namespace english_literals;
 
 enum InputType {
     NONE,

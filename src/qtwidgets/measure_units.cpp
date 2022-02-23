@@ -5,16 +5,23 @@
 #include "utility_measure_units_qt.hpp"
 #include "calculator.hpp"
 
+#ifdef LANG_ENG
+    auto outputUnits = "Output units :";
+    auto inputUnits = "Input units :";
+#else 
+    auto outputUnits = "Единицы ввода :";
+    auto inputUnits = "Единицы вывода :";
+#endif
 
 MeasureUnits::MeasureUnits (Calculator& calc, QWidget *parent):
 QWidget(parent) {
-    auto labelInput = new QLabel("Единицы ввода :");
+    auto labelInput = new QLabel(outputUnits);
     comboInput = new QComboBox();
     comboInput->addItems(Utility::getLenghtList());
     connect(comboInput, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&calc](int index){
         calc.setMeasureInput(Utility::magnitudeByIndex(index));
     });
-    auto labelOutput = new QLabel("Единицы вывода :");
+    auto labelOutput = new QLabel(inputUnits);
     comboOutput = new QComboBox();
     comboOutput->addItems(Utility::getAreaList());
     connect(comboOutput, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, &calc](int index){

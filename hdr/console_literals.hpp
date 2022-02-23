@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-
 namespace english_literals{
     const char* lang {"eng"};
+    const char* totalAreaLiteral{"Total area: "};
     const char* commonArea{"Common area: "};
     const char* availableShapes {"Available shapes:\n"};
+    const char* calculatorForArea {"Calculator for calculating the area\n"};
     const char* enterHelpCommand {"Enter \"help\" for display help.\n"};
     const char* noName {"NO_NAME"};
     const char* parameterLiteral{"Paramrter "};

@@ -3,6 +3,11 @@
 #include "area_view.hpp"
 #include "parser.hpp"
 
+#ifdef LANG_ENG
+    auto factorName = "Factor";
+#else 
+    auto factorName = "Коэффициент";
+#endif
 
 ShapeInput::ShapeInput(int id, QString name, const ShapeModel& model, QWidget* parent):
 QWidget(parent), shapeID{id} {
@@ -22,7 +27,7 @@ QWidget(parent), shapeID{id} {
     innerLayout->addLayout(formLayout);
     factorLineEdit = new QLineEdit();
     factorLineEdit->setValidator(&validator);
-    formLayout->addRow("Коэффициент", factorLineEdit);
+    formLayout->addRow(factorName, factorLineEdit);
     if (params[5]) {
         auto cbox = new QCheckBox(params[5]->text.data());
         innerLayout->addWidget(cbox);

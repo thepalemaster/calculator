@@ -54,10 +54,9 @@ namespace Parser {
                     break;
                 }
             }
+            errno = 0;
             temp = std::strtod(start, &end);
-            //std::cout << len << '%' << end - stringData << std::endl; 
             if (start == end || len < end - stringData) break;
-            //std::cout << std::string(start, end - start) << '!' << temp << std::endl;
             start = end;
             if (errno == ERANGE){
                 errno = 0;
@@ -89,6 +88,7 @@ namespace Parser {
     double parseDoubleOrZero(const char *stringData) {
         char* end;
         double result {0.};
+        errno = 0;
         for (result = std::strtod(stringData, &end); stringData != end; result += std::strtod(stringData, &end)) {
             if (errno == ERANGE){
                 return 0;

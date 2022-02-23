@@ -51,6 +51,7 @@ set(QTWIDGETS_SOURCES
     hdr/qtw/measure_units.hpp
     src/qtwidgets/inputnumberqvalidator.cpp
     hdr/qtw/inputnumberqvalidator.hpp
+    src/qtwidgets/utility_measure_units_qt.cpp
     res/resourses.qrc
 )
 
@@ -112,6 +113,13 @@ target_link_libraries(area_calc PRIVATE
     shape_model
 )
 
+if(${LANGUAGE_FOR_BUILD} STREQUAL "eng")
+    message(${LANGUAGE_FOR_BUILD})
+    target_compile_definitions(qt_area_calc PRIVATE LANG_ENG)
+    target_compile_definitions(shape_model PRIVATE LANG_ENG)
+    target_compile_definitions(area_calc PRIVATE LANG_ENG)
+endif()
+
 target_include_directories(calculator PUBLIC hdr)
 target_include_directories(parser PUBLIC hdr)
 target_include_directories(shape_model PUBLIC hdr)
@@ -131,7 +139,7 @@ target_link_libraries(qml_calc
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
 
 set_target_properties(qml_calc PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_GUI_IDENTIFIER qml.area_calc.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )

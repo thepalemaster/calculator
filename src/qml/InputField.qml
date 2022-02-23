@@ -1,27 +1,32 @@
 import QtQuick 2.0
 
-Rectangle {
-   color: Style.backgroundColor
-   border {
-      color: Style.secondaryColor
-      width: 1
-   }
-   Text {
-       id: name
-       color: Style.mainColor
-       anchors.top: parent.top
-       anchors.left: parent.left
-       anchors.right: field.left
-       text: "Custom Shape Name"
-   }
-   TextInput {
-       id: field
-       color: Style.mainColor
-       width: parent.width / 3
-       height: Style.buttonHeight
-       anchors.top: parent.top
-       anchors.bottom: parent.bottom
-       anchors.right: parent.right
-   }
-
+Row {
+    spacing: 10
+    Text {
+        id: name
+        color: Style.mainColor
+        //width: parent.width / 2
+        //anchors.top: parent.top
+        //anchors.left: parent.left
+        //anchors.horizontalCenter: parent.horizontalCenter
+        text: "Custom Shape Name"
+    }
+    Rectangle {
+        color: "gray"
+        border {
+            color: Style.mainColor
+            width: 1
+            
+        }
+        width: parent.width
+        height: parent.height / 2
+        TextInput {
+            id: field
+            color: Style.mainColor
+            maximumLength: 18
+            horizontalAlignment: TextInput.AlignHCenter
+            verticalAlignment: TextInput.AlignVCenter
+            anchors.fill: parent
+        }
+    }
 }
