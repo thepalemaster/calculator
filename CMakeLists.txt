@@ -113,8 +113,7 @@ target_link_libraries(area_calc PRIVATE
     shape_model
 )
 
-if(${LANGUAGE_FOR_BUILD} STREQUAL "eng")
-    message(${LANGUAGE_FOR_BUILD})
+if(LANGUAGE_FOR_BUILD STREQUAL "eng")
     target_compile_definitions(qt_area_calc PRIVATE LANG_ENG)
     target_compile_definitions(shape_model PRIVATE LANG_ENG)
     target_compile_definitions(area_calc PRIVATE LANG_ENG)

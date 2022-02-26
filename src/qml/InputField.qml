@@ -1,25 +1,26 @@
 import QtQuick 2.0
 
-Row {
-    spacing: 10
+Item {
     Text {
         id: name
+        anchors.left: parent.left
         color: Style.mainColor
-        //width: parent.width / 2
-        //anchors.top: parent.top
-        //anchors.left: parent.left
-        //anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
         text: "Custom Shape Name"
     }
     Rectangle {
+        height: parent.height
+        width: parent.width / 2
+        anchors.left: name.right
+        anchors.margins: 10
+        //anchors.top: parent.top
+        //anchors.bottom: parent.bottom
         color: "gray"
         border {
             color: Style.mainColor
             width: 1
             
         }
-        width: parent.width
-        height: parent.height / 2
         TextInput {
             id: field
             color: Style.mainColor

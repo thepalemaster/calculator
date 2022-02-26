@@ -10,6 +10,8 @@ QString fromValueToStr(double value);
 class AreaViewer: public QWidget {
     //Q_OBJECT
 private:
+    bool powerFlag = false;
+    QLabel* fullNumber;
     int previousLen = 0;
     double currentArea = 0;
     QHBoxLayout* box;

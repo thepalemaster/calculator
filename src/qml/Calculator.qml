@@ -16,15 +16,14 @@ Rectangle {
         anchors.margins: 5
     }
 
-    /*
-    ResultList{
-        id: list
+    CommandButtons {
+        id: command
+        anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: chooser.left
-        anchors.left: parent.left
+        anchors.top: view.bottom
         anchors.margins: 5
     }
-    */
 
     AreaViewer {
         id: view

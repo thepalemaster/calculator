@@ -12,5 +12,6 @@
         <file>Calculator.qml</file>
         <file>ShapeCounter.qml</file>
         <file>InputField.qml</file>
+        <file>CommandButtons.qml</file>
     </qresource>
 </RCC>

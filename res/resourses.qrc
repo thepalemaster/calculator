@@ -5,20 +5,4 @@
     <file alias="edit.svg">icons/edit-2-line.svg</file>
 </qresource>
 
-<qresource prefix="/digits">
-    <file alias="0.svg">digits/number-0.svg</file>
-    <file alias="1.svg">digits/number-1.svg</file>
-    <file alias="2.svg">digits/number-2.svg</file>
-    <file alias="3.svg">digits/number-3.svg</file>
-    <file alias="4.svg">digits/number-4.svg</file>
-    <file alias="5.svg">digits/number-5.svg</file>
-    <file alias="6.svg">digits/number-6.svg</file>
-    <file alias="7.svg">digits/number-7.svg</file>
-    <file alias="8.svg">digits/number-8.svg</file>
-    <file alias="9.svg">digits/number-9.svg</file>
-    <file alias="comma.svg">digits/single-comma.svg</file>
-    <file alias="minus.svg">digits/minus.svg</file>
-    <file alias="empty.svg">digits/empty.svg</file>
-</qresource>
-
 </RCC>
