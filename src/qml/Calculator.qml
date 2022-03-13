@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     color: Style.backgroundColor
-
+    id: calc
     border {
         color: Style.mainColor
         width: 1
@@ -10,10 +10,11 @@ Rectangle {
 
     ChooseShape{
         id: chooser
-        width: parent.width / 4
-        anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.right: calc.right
+        anchors.top: calc.top
         anchors.margins: 5
+        width: calc.width / 4
+        height: calc.height - Style.buttonHeight - anchors.margins - 5
     }
 
     CommandButtons {

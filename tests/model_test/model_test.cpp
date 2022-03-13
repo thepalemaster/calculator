@@ -68,7 +68,7 @@ void compare_numbers_names_case (const ShapeModel& model, const ModelAsserts& am
 void compare_numbers_names (const ShapeModel& model, const ModelAsserts& amodel) {
     bool equal = true;
     const char* error = "[-] Number names are not equal\n";
-    auto names = model.getParamNames();;
+    auto names = model.getParamNames();
     for (size_t index = 0; index < 4; ++index) {
         if (amodel.doubleNames[index].empty() ^ !names[index + 1]) {
             if (equal) {

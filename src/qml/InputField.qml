@@ -13,9 +13,7 @@ Item {
         width: parent.width / 2
         anchors.left: name.right
         anchors.margins: 10
-        //anchors.top: parent.top
-        //anchors.bottom: parent.bottom
-        color: "gray"
+        color: "steelblue"
         border {
             color: Style.mainColor
             width: 1

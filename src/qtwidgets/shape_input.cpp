@@ -3,6 +3,10 @@
 #include "area_view.hpp"
 #include "parser.hpp"
 
+#include <QDebug>
+#include <iostream>
+
+
 #ifdef LANG_ENG
     auto factorName = "Factor";
 #else 
@@ -13,12 +17,12 @@ ShapeInput::ShapeInput(int id, QString name, const ShapeModel& model, QWidget* p
 QWidget(parent), shapeID{id} {
     auto mainLayout = new QVBoxLayout();
     newGroup = new QGroupBox(name);
+    currentParamNumber = model.getParamNumber();
     auto innerLayout = new QVBoxLayout();
     formLayout = new QFormLayout();
     auto params = model.getParamNames();
     mainLayout->addWidget(newGroup);
-    for (int i = 1; i < 5; ++i) {
-        if (!params[i]) break;
+    for (size_t i = 1; i <= currentParamNumber; ++i) {
         auto inputDouble = new QLineEdit();
         inputDouble->setValidator(&validator);
         usedInputLine[i - 1] = inputDouble;
@@ -33,14 +37,15 @@ QWidget(parent), shapeID{id} {
         innerLayout->addWidget(cbox);
         usedCheckBox[0] = cbox;
         connect(usedCheckBox[0], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
-            bool second = usedCheckBox[1] && usedCheckBox[1]->isChecked() ? true : false;
+            bool second =  usedCheckBox[1] && usedCheckBox[1]->isChecked() ? true : false;
             updateNames(model.updateNames(state, second));
+            //formLayout->insertRow(currentParamNumber - 1, "*****", new QLineEdit());
         });
         if (params[6]) {
-            auto cbox = new QCheckBox(params[6]->text.data());
-            innerLayout->addWidget(cbox);
-            usedCheckBox[1] = cbox;
-            connect(usedCheckBox[0], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
+            auto cbox1 = new QCheckBox(params[6]->text.data());
+            innerLayout->addWidget(cbox1);
+            usedCheckBox[1] = cbox1;
+            connect(usedCheckBox[1], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
                 updateNames(model.updateNames(usedCheckBox[0]->isChecked(), state));
             });
         }
@@ -51,11 +56,9 @@ QWidget(parent), shapeID{id} {
 
 CalculatorParameters ShapeInput::getInput() {
     CalculatorParameters params {};
-    for (int i = 0; i < 4; ++i) {
-        if (usedInputLine[i]) {
-            auto str = usedInputLine[i]->text().toLatin1();
-            params.numbers[i] = Parser::toDouble(str.data(), str.size());
-        }
+    for (int i = 0; i < currentParamNumber; ++i) {
+        auto str = usedInputLine[i]->text().toLatin1();
+        params.numbers[i] = Parser::toDouble(str.data(), str.size());
     }
     const auto factorStr = factorLineEdit->text();
     if (factorStr != "1" && !factorStr.isEmpty()) {
@@ -70,6 +73,7 @@ CalculatorParameters ShapeInput::getInput() {
 }
 
 void ShapeInput::setInput(const Result& result){ 
+    // !!! может быть переменного значения
     for(size_t i = 0; i < result.param.numbers.size(); ++i) {
         if (result.param.numbers[i]){
             usedInputLine[i]->setText(fromValueToStr(result.param.numbers[i]));
@@ -86,7 +90,7 @@ void ShapeInput::setInput(const Result& result){
 }
 
 bool ShapeInput::getState(int index) {
-    if (index >= usedCheckBox.size() || index < 0){
+    if (index >= usedCheckBox.size() || index < 0 || !usedCheckBox[index]){
         return false;
     }
     return usedCheckBox[index]->isChecked();
@@ -95,9 +99,23 @@ bool ShapeInput::getState(int index) {
 void ShapeInput::updateNames(std::array<const Shapes::Option *, 5> newNames) {
     if (!newNames[0]) return;
     newGroup->setTitle(newNames[0]->text.data());
-    for (int i = 1; newNames[i]; ++i) {
-        auto label = static_cast<QLabel*>(formLayout->itemAt(i - 1, QFormLayout::LabelRole)->widget());
-        label->setText(newNames[i]->text.data());
+    int i; 
+    for (i = 0; newNames[i + 1] && i < currentParamNumber; ++i) {
+        auto label = static_cast<QLabel*>(formLayout->itemAt(i, QFormLayout::LabelRole)->widget());
+        label->setText(newNames[i + 1]->text.data());
     }
+    while (i < 4 && newNames[i + 1]) {
+        usedInputLine[i] = new QLineEdit();
+        formLayout->insertRow(currentParamNumber, newNames[i + 1]->text.data(), usedInputLine[i]);
+        ++i;
+    }
+    if (i < currentParamNumber) {
+        auto needlessRows = i;
+        while (needlessRows < currentParamNumber) {
+            formLayout->removeRow(i);
+            ++needlessRows;
+        }
+    }
+    currentParamNumber = i;
 }
 

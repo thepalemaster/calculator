@@ -11,8 +11,7 @@
 int main (int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    Calculator calc;
-    CalculatorMainWindow qtWidgetCalc(calc);
+    CalculatorMainWindow qtWidgetCalc;
     qtWidgetCalc.setWindowTitle(applicationTitle);
     qtWidgetCalc.show();
     return app.exec();

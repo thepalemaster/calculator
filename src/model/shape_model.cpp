@@ -237,6 +237,8 @@ void ShapeModel::applyState(std::array<const Shapes::Option *, 5>& names, const 
     for (auto& param: state.params) {
         if (param.init) {
             names[index] = param.name;
+        } else {
+            break;
         }
         ++index;
     }
@@ -252,7 +254,7 @@ std::array<const Shapes::Option *, 5> ShapeModel::updateNames(bool first, bool s
     if (first && stateOptions[0].init && stateOptions[0].state) {
          applyState(paramNames, *stateOptions[0].state);
     }
-    if (first && second && stateOptions.size() == 3 && stateOptions[2].state) {
+    if (first && second && stateOptions.size() == 3 && stateOptions[2].init && stateOptions[2].state) {
          applyState(paramNames, *stateOptions[2].state);
     }
     return paramNames;

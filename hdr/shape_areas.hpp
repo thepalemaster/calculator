@@ -50,4 +50,10 @@ namespace Shapes {
         Cuboid(int id);
         virtual double calculate(const CalculatorParameters& param) const override;
     };
+    
+    class Triangle: public AbstractShape {
+    public:
+        Triangle(int id);
+        virtual double calculate(const CalculatorParameters& param) const override;
+    };
 }

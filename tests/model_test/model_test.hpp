@@ -31,7 +31,7 @@ struct ModelAsserts {
             return;
         }
         int index = param - 1 + option1 * 4 + option2 * 8;
-        doubleNames[param - 1] = str;
+        doubleNames[index] = str;
     }
     
      inline void setDoubleNameNoOptions (std::string str, int param) {

@@ -11,9 +11,10 @@ private:
     AreaViewer* number;
     ShapeListWigdet* listViewer;
     void updadeArea(double value);
+    Calculator calc;
     
 public:
-    CalculatorMainWindow(Calculator& calc, QWidget* parent = nullptr);
+    CalculatorMainWindow(QWidget* parent = nullptr);
     
 signals:
     void setArea(double value);

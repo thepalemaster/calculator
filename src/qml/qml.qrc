@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>AreaViewer.qml</file>
-        <file>ShapeButton.qml</file>
         <file>ShapeInput.qml</file>
         <file>ShapeView.qml</file>
         <file>ResultList.qml</file>
@@ -13,5 +12,6 @@
         <file>ShapeCounter.qml</file>
         <file>InputField.qml</file>
         <file>CommandButtons.qml</file>
+        <file>StandartButton.qml</file>
     </qresource>
 </RCC>

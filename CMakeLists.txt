@@ -58,6 +58,8 @@ set(QTWIDGETS_SOURCES
 set(QML_SOURCES
         src/qml/main.cpp
         src/qml/qml.qrc
+        hdr/qml/shape_list_model.hpp
+        src/qml/shape_list_model.cpp
 )
 
   
@@ -107,6 +109,13 @@ target_link_libraries(qt_area_calc PRIVATE
     Qt${QT_VERSION_MAJOR}::Svg
 )
 
+target_link_libraries(qml_calc PRIVATE
+    calculator
+    shape_model
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Quick
+)
+
 target_link_libraries(area_calc PRIVATE 
     calculator
     parser
@@ -123,9 +132,9 @@ target_include_directories(calculator PUBLIC hdr)
 target_include_directories(parser PUBLIC hdr)
 target_include_directories(shape_model PUBLIC hdr)
 target_include_directories(area_calc PRIVATE hdr)
-target_include_directories(qt_area_calc PUBLIC hdr/qtw)
+target_include_directories(qt_area_calc PRIVATE hdr/qtw)
+target_include_directories(qml_calc PRIVATE hdr/qml)
         
-
 set_target_properties(area_calc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER palemaster.area_calc.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -133,9 +142,8 @@ set_target_properties(area_calc PROPERTIES
 )
 
 target_compile_definitions(qml_calc
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(qml_calc
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+)
 
 set_target_properties(qml_calc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER qml.area_calc.com

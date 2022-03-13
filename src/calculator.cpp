@@ -34,7 +34,7 @@ Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
     Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism,
-    Shapes::Cuboid>()}, models{generateModels(shapes)} {}
+    Shapes::Cuboid, Shapes::Triangle>()}, models{generateModels(shapes)} {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;

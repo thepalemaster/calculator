@@ -12,6 +12,12 @@ QString fromValueToStr(const double value) {
         str = QString::number(rounded);
     } else {
         str = QString::number(value, 'g', 5);
+        #ifndef LANG_ENG
+            auto separatorPos = str.indexOf('.');
+            if (separatorPos != -1) {
+                str[separatorPos] = ',';
+            }
+        #endif
         auto pos = str.indexOf('e', Qt::CaseInsensitive);
         if (pos != -1) {
             str.replace(pos, 1, " ×10<sup>");

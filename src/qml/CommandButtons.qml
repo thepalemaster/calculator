@@ -1,62 +1,28 @@
 import QtQuick 2.0
 
 Grid {
+    id: commandGrid
     columns: 2
     spacing: 5
-    Rectangle {
-        width: parent.width / 2 - 5
-        height: Style.buttonHeight
-        color: Style.backgroundColor
-        border {
-            color: Style.mainColor
-            width: 1
-        }
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("Copy")
-            color: Style.mainColor
-       }
+    property int actualWidth: width / columns - spacing / (columns - 1)
+
+    StandartButton {
+        buttonName: "Reset"
+        width: actualWidth
     }
-    Rectangle {
-        width: parent.width / 2 - 5
-        height: Style.buttonHeight
-        color: Style.backgroundColor
-        border {
-            color: Style.mainColor
-            width: 1
-        }
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("Reset")
-            color: Style.mainColor
-       }
+
+    StandartButton {
+        buttonName: "Copy"
+        width: actualWidth
     }
-    Rectangle {
-        width: parent.width / 2 - 5
-        height: Style.buttonHeight
-        color: Style.backgroundColor
-        border {
-            color: Style.mainColor
-            width: 1
-        }
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("View List")
-            color: Style.mainColor
-       }
+
+    StandartButton {
+        buttonName: "View List"
+        width: actualWidth
     }
-    Rectangle {
-        width: parent.width / 2 - 5
-        height: Style.buttonHeight
-        color: Style.backgroundColor
-        border {
-            color: Style.mainColor
-            width: 1
-        }
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("Set measure units")
-            color: Style.mainColor
-       }
+
+    StandartButton {
+        buttonName: "Set Measure Units"
+        width: actualWidth
     }
 }

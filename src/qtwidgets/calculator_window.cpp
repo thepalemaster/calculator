@@ -11,11 +11,11 @@
     auto copyButtonName = "Скопировать";
 #endif
 
-CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
+CalculatorMainWindow::CalculatorMainWindow(QWidget* parent):
     QWidget{parent}, vbox{new QVBoxLayout()}, number{new AreaViewer()}, 
     listViewer{new ShapeListWigdet(calc)} {
     calc.setupResultCallback([this](double value){number->updateArea(value);});
-    calc.setupListCallback([this, &calc](int index, Result::action action){
+    calc.setupListCallback([this](int index, Result::action action){
         switch (action) {
             case Result::NEW_ITEM:
                 listViewer->addItem(calc.getResult(index));
@@ -45,7 +45,7 @@ CalculatorMainWindow::CalculatorMainWindow(Calculator& calc, QWidget* parent):
     vbox->addWidget(listViewer);
     auto buttonBox = new QHBoxLayout();
     auto buttonClear = new QPushButton(clearButtonName);
-    connect(buttonClear, &QPushButton::clicked, this, [&calc](){
+    connect(buttonClear, &QPushButton::clicked, this, [this](){
         calc.reset();
     });
     auto buttonClipboard = new QPushButton(copyButtonName);

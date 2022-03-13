@@ -1,12 +1,12 @@
 import QtQuick 2.15
+import ru.AreaCalc.ShapeModel 1.0
 
-Column {
+ListView {
     spacing: 2
-    Repeater {
-        model: 5
-        ShapeButton{
+    model: ShapeModel{}
+    delegate:
+        StandartButton {
             width: parent.width
-            height: Style.buttonHeight
+            buttonName: display
         }
-    }
 }

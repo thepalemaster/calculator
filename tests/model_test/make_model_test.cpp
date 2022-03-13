@@ -114,4 +114,31 @@ int main() {
     make_test_for_model(cubeModel, cubeAModel);
     std::cout << '\n';
     
+    Shapes::Triangle triang(0);
+    ShapeModel triangModel(triang.getOptions());
+    ModelAsserts triangAModel;
+    triangAModel.name[0] = "Треугольник";
+    triangAModel.paramNumbers = 2;
+    triangAModel.setDoubleName("Основание треугольника", 1);
+    triangAModel.setDoubleName("Высота треугольника", 2);
+    triangAModel.boolNames[0] = "Через длинны сторон";
+    triangAModel.boolNames[1] = "Через углы треугольника";
+    triangAModel.setDoubleNameTwoOptions("Сторона a", 1, true, false);
+    triangAModel.setDoubleNameTwoOptions("Сторона b", 2, true, false);
+    triangAModel.setDoubleNameTwoOptions("Сторона c", 3, true, false);
+    triangAModel.setDoubleNameTwoOptions("Сторона a", 1, false, true);
+    triangAModel.setDoubleNameTwoOptions("Угол α", 2, false, true);
+    triangAModel.setDoubleNameTwoOptions("Угол β", 3, false, true);
+    triangAModel.setDoubleNameTwoOptions("Сторона a", 1, true, true);
+    triangAModel.setDoubleNameTwoOptions("Сторона b", 2, true, true);
+    triangAModel.setDoubleNameTwoOptions("Угол α", 3, true, true);
+    triangAModel.setFormat("Треугольник S: %g, b: %g, h: %g");
+    triangAModel.setFormatTwoOptions("Треугольник S: %g, a: %g, b: %g, c: %g", true, false);
+    triangAModel.setFormatTwoOptions("Треугольник S: %g, a: %g, α: %g, β: %g", false, true);
+    triangAModel.setFormatTwoOptions("Треугольник S: %g, a: %g, b: %g, α: %g", true, true);
+    std::cout << "---Triangle---\n";
+    triangAModel.shortNames.push_back("triangle");
+    make_test_for_model(triangModel, triangAModel);
+    std::cout << '\n';
+    
 }

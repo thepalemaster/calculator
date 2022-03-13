@@ -16,6 +16,7 @@ private:
     InputNumberQValidator validator;
     std::array<QLineEdit*, 4> usedInputLine {};
     std::array<QCheckBox*, 2> usedCheckBox {};
+    int currentParamNumber = 0;
     QGroupBox* newGroup;
     QLineEdit* factorLineEdit;
     QFormLayout* formLayout;
