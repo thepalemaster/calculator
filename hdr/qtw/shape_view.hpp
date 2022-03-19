@@ -11,6 +11,7 @@ class ShapeViewer: public QWidget{
 private:
     Ui::ShapeView ui;
     Calculator &calculator;
+    
 public:
     int index;
     ShapeViewer(Calculator& calc, const Result& shapeResult, QWidget* parent = nullptr);

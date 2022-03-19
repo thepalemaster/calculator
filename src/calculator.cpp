@@ -3,6 +3,8 @@
 
 #include "calculator.hpp"
 
+#include <iostream>
+
 template <typename Head, typename ...Tail>
 constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstractShape>>& vec, int i) {
     vec.emplace_back(std::make_unique<Head>(i));
@@ -34,7 +36,9 @@ Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
     Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism,
-    Shapes::Cuboid, Shapes::Triangle>()}, models{generateModels(shapes)} {}
+    Shapes::Cuboid, Shapes::Triangle>()}, models{generateModels(shapes)} {
+        std::cout << "**" << std::endl;
+    }
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
@@ -108,8 +112,9 @@ void Calculator::setupListCallback(std::function<void (int, Result::action)> cal
 }
 
 const Result& Calculator::getResult(int index) const {
+
     if (index < 0 || index >= resultList.size()) {
-        throw std::out_of_range("Unknown shape ID");
+        throw std::out_of_range("Unknown calculating result");
     }
     return resultList[index];
 }
@@ -122,6 +127,7 @@ void Calculator::setupResultCallback(std::function<void (double)> callback) {
 void Calculator::setMeasureOutput(double value) {
     if (!std::isnormal(value)) return;
     double updateFactor = outputMagnitude / value;
+    updateFactor *= updateFactor;
     for (size_t i = 0; i < resultList.size(); ++i) {
         resultList[i].area *= updateFactor;
         listCallback(i, Result::CHANGE_ITEM);

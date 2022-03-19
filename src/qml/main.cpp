@@ -3,10 +3,7 @@
 
 #include <QtQml/qqml.h>
 
-#include "calculator.hpp"
-#include "shape_list_model.hpp"
-
-#include <QDebug>
+#include "qml_calculator.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -14,17 +11,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-    Calculator calc;
-    ShapeListModel shModel(calc);
-    qmlRegisterType<ShapeListModel>("ru.AreaCalc.ShapeModel", 1, 0,"ShapeModel");
+    qmlRegisterType<CalculatorWrapper::ShapeListModel>("ru.AreaCalc.ShapeModel", 1, 0,"ShapeModel");
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+                         if (!obj && url == objUrl)
+                             QCoreApplication::exit(-1);
+                     }, Qt::QueuedConnection);
     engine.load(url);
-
+    
     return app.exec();
 }

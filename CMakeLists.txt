@@ -58,8 +58,9 @@ set(QTWIDGETS_SOURCES
 set(QML_SOURCES
         src/qml/main.cpp
         src/qml/qml.qrc
-        hdr/qml/shape_list_model.hpp
+        src/qml/qml_calculator.cpp
         src/qml/shape_list_model.cpp
+        hdr/qml/qml_calculator.hpp
 )
 
   

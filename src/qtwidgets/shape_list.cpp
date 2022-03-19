@@ -6,7 +6,6 @@ QScrollArea(parent), calculator{calc}, mainBox{new QVBoxLayout()} {
     auto externLayout = new QVBoxLayout();
     externLayout->addLayout(mainBox);
     externLayout->addStretch(1);
-    //mainWidget->resize(200,200);
     mainWidget->setLayout(externLayout);
     setWidget(mainWidget);
     setWidgetResizable(true);
@@ -19,7 +18,7 @@ void ShapeListWigdet::addItem(const Result& newResult){
     if(visibleWidgets < widgetList.size()){
         widgetList[visibleWidgets]->newShape(newResult);
         widgetList[visibleWidgets]->show();
-        widgetList[visibleWidgets]->index = visibleWidgets - 1;
+        widgetList[visibleWidgets]->index = visibleWidgets;
     } else {
         auto shapeView = new ShapeViewer(calculator, newResult);
         widgetList.push_back(shapeView);

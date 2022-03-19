@@ -5,6 +5,7 @@ Rectangle {
     property string buttonName: "No Name"
     color: Style.backgroundColor
     height: Style.buttonHeight
+
     border {
         color: Style.mainColor
         width: 1
