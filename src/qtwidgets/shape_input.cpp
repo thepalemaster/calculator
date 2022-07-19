@@ -39,7 +39,6 @@ QWidget(parent), shapeID{id} {
         connect(usedCheckBox[0], QOverload<int>::of(&QCheckBox::stateChanged), this, [this, &model](int state){
             bool second =  usedCheckBox[1] && usedCheckBox[1]->isChecked() ? true : false;
             updateNames(model.updateNames(state, second));
-            //formLayout->insertRow(currentParamNumber - 1, "*****", new QLineEdit());
         });
         if (params[6]) {
             auto cbox1 = new QCheckBox(params[6]->text.data());
@@ -62,7 +61,8 @@ CalculatorParameters ShapeInput::getInput() {
     }
     const auto factorStr = factorLineEdit->text();
     if (factorStr != "1" && !factorStr.isEmpty()) {
-        params.setFactor(factorStr.toDouble());
+        auto str = factorStr.toLatin1();
+        params.setFactor(Parser::toDouble(str.data(), str.size()));
     }
     for (int i = 0; i < 2; ++i) {
         if (usedCheckBox[i]) {
@@ -73,7 +73,6 @@ CalculatorParameters ShapeInput::getInput() {
 }
 
 void ShapeInput::setInput(const Result& result){ 
-    // !!! может быть переменного значения
     for(size_t i = 0; i < result.param.numbers.size(); ++i) {
         if (result.param.numbers[i]){
             usedInputLine[i]->setText(fromValueToStr(result.param.numbers[i]));

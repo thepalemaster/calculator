@@ -3,6 +3,8 @@
 
 CalculatorWrapper::ShapeListModel::ShapeListModel(QObject* parent):
 QAbstractListModel(parent) {
+    userRoleNames[IDRole] = "shapeID";
+    userRoleNames[ShapeName] = "shapeName";
     auto& calc = getCalculator();
     strList.reserve(calc.models.size());
     for (auto& model:  calc.models) {
@@ -19,12 +21,23 @@ int CalculatorWrapper::ShapeListModel::columnCount(const QModelIndex & parent) c
 };
 
 QVariant CalculatorWrapper::ShapeListModel::data(const QModelIndex & index, int role) const {
-    if (!index.isValid() || role != Qt::DisplayRole) {
+    if (!index.isValid()) {
         return {};
     }
     size_t rowIndex = index.row();
     if (rowIndex >= strList.size()) {
         return {};
     }
-    return QVariant(strList[rowIndex]->data());
+    if (role == ShapeName) {
+        return QVariant(strList[rowIndex]->data());
+    }
+    if (role == IDRole) {
+        return QVariant((int)rowIndex);
+    }
+    return {};
+
 };
+
+QHash<int, QByteArray> CalculatorWrapper::ShapeListModel::roleNames() const {
+    return userRoleNames;
+}

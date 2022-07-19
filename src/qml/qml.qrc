@@ -13,5 +13,7 @@
         <file>InputField.qml</file>
         <file>CommandButtons.qml</file>
         <file>StandartButton.qml</file>
+        <file>InputCheckBox.qml</file>
+        <file>ShapeList.qml</file>
     </qresource>
 </RCC>

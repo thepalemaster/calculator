@@ -56,11 +56,13 @@ set(QTWIDGETS_SOURCES
 )
 
 set(QML_SOURCES
-        src/qml/main.cpp
-        src/qml/qml.qrc
-        src/qml/qml_calculator.cpp
-        src/qml/shape_list_model.cpp
-        hdr/qml/qml_calculator.hpp
+    src/qml/main.cpp
+    src/qml/qml.qrc
+    src/qml/qml_calculator.cpp
+    src/qml/shape_list_model.cpp
+    hdr/qml/qml_calculator.hpp
+    src/qml/shape_input_view.cpp
+    src/qml/result_list_model.cpp
 )
 
   
@@ -112,6 +114,7 @@ target_link_libraries(qt_area_calc PRIVATE
 
 target_link_libraries(qml_calc PRIVATE
     calculator
+    parser
     shape_model
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Quick

@@ -15,6 +15,9 @@ Rectangle {
         anchors.margins: 5
         width: calc.width / 4
         height: calc.height - Style.buttonHeight - anchors.margins - 5
+        onSetupShape: {
+            input.setShape(id);
+        }
     }
 
     CommandButtons {
@@ -24,6 +27,9 @@ Rectangle {
         anchors.right: chooser.left
         anchors.top: view.bottom
         anchors.margins: 5
+        onCalculateCurrentInput: {
+            input.calculate()
+        }
     }
 
     AreaViewer {
@@ -33,7 +39,6 @@ Rectangle {
         anchors.top: input.bottom
         anchors.margins: 5
     }
-
     ShapeInput{
         id: input
         width: parent.width - chooser.width
@@ -43,4 +48,5 @@ Rectangle {
         anchors.right: chooser.left
         anchors.margins: 5
     }
+
 }

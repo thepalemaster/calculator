@@ -3,8 +3,6 @@
 
 #include "calculator.hpp"
 
-#include <iostream>
-
 template <typename Head, typename ...Tail>
 constexpr void addShape(std::vector<std::unique_ptr<Shapes::AbstractShape>>& vec, int i) {
     vec.emplace_back(std::make_unique<Head>(i));
@@ -36,9 +34,8 @@ Calculator::Calculator():
 shapes{generateShapesList<
     Shapes::Rectangle, Shapes::Circle, Shapes::Cylinder,
     Shapes::Sphere, Shapes::Hexagon, Shapes::Bushing, Shapes::HexPrism,
-    Shapes::Cuboid, Shapes::Triangle>()}, models{generateModels(shapes)} {
-        std::cout << "**" << std::endl;
-    }
+    Shapes::Cuboid, Shapes::Triangle>()}, models{generateModels(shapes)} 
+    {}
 
 void Calculator::calculate(int shapeID, CalculatorParameters& param) {
     if (shapeID < 0 || shapeID >= shapes.size()) return;
@@ -108,7 +105,7 @@ const std::vector<Shapes::Option> & Calculator::shapeOptionsByID(int id) const {
 }
 
 void Calculator::setupListCallback(std::function<void (int, Result::action)> callback) {
-    listCallback = callback;
+    listFunc = callback;
 }
 
 const Result& Calculator::getResult(int index) const {
@@ -121,7 +118,7 @@ const Result& Calculator::getResult(int index) const {
 
 
 void Calculator::setupResultCallback(std::function<void (double)> callback) {
-    resultCallback = callback;
+    resultFunc = callback;
 }
 
 void Calculator::setMeasureOutput(double value) {
@@ -153,4 +150,16 @@ void Calculator::setMeasureInput(double value) {
     double newRatio = outputMagnitude / inputMagnitude;
     newRatio *= newRatio;
     ratio = newRatio;
+}
+
+void Calculator::listCallback(int id, Result::action action) {
+    if (listFunc) {
+        listFunc(id, action);
+    }
+}
+
+void Calculator::resultCallback(double value) {
+    if (resultFunc) {
+        resultFunc(value);
+    }
 }

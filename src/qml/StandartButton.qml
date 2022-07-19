@@ -5,6 +5,7 @@ Rectangle {
     property string buttonName: "No Name"
     color: Style.backgroundColor
     height: Style.buttonHeight
+    signal clicked
 
     border {
         color: Style.mainColor
@@ -19,6 +20,10 @@ Rectangle {
         wrapMode: Text.Wrap
     }
     MouseArea {
+        id: mouse
         anchors.fill: button
+        onClicked: {
+            button.clicked();
+        }
     }
 }

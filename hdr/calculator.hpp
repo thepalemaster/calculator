@@ -10,13 +10,15 @@ class Calculator final {
 private:
     std::vector<Result> resultList;
     const std::vector<std::unique_ptr<Shapes::AbstractShape>> shapes;
-    std::function<void(double)> resultCallback;
-    std::function<void(int, Result::action)> listCallback;
+    std::function<void(double)> resultFunc;
+    std::function<void(int, Result::action)> listFunc;
     void normalizeParams(CalculatorParameters& calc);
     double totalArea = 0;
     double ratio = 1;
     double inputMagnitude = 1;
     double outputMagnitude= 1;
+    void resultCallback (double value);
+    void listCallback (int id, Result::action action);
 public:
     const std::vector<ShapeModel> models;
     Calculator();
